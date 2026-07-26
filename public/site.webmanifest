@@ -1,0 +1,26 @@
+{
+  "name": "Vision Life Ministries",
+  "short_name": "VLM",
+  "description": "Spirit-filled Christian church in Rakai, Uganda — reaching, restoring and equipping people with the Gospel across East Africa and the world.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#FFD700",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

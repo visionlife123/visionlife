@@ -1,0 +1,519 @@
+     1→'use client';
+     2→
+     3→import { motion } from 'framer-motion';
+     4→import { Card, CardContent } from '@/components/ui/card';
+     5→import { Separator } from '@/components/ui/separator';
+     6→import {
+     7→  BookOpen, Heart, Cross, Users, Globe, Shield,
+     8→  Target, Eye, Compass, Star, Award, TrendingUp,
+     9→  Church, GraduationCap, HandHeart, Scale, Building,
+    10→  Landmark, HandCoins, Briefcase, UsersRound
+    11→} from 'lucide-react';
+    12→import {
+    13→  fadeInUp, fadeInLeft, fadeInRight, scaleIn, blurIn, rotateIn,
+    14→  staggerContainer, staggerItem, staggerItemScale, viewportOnce,
+    15→} from '@/lib/animations';
+    16→
+    17→const coreValues = [
+    18→  {
+    19→    icon: <Cross className="w-7 h-7" />,
+    20→    title: 'Abiding',
+    21→    description: 'Remaining deeply connected to Christ through prayer, Scripture, faith, community, and resting in His righteousness to bear lasting spiritual fruit.',
+    22→    verse: 'John 15:1-17',
+    23→    gradient: 'from-gold to-gold-dark',
+    24→  },
+    25→  {
+    26→    icon: <BookOpen className="w-7 h-7" />,
+    27→    title: 'Knowing',
+    28→    description: 'Growing in biblical and theological knowledge that transforms how we live, ensuring our actions align with what we learn.',
+    29→    verse: 'John 8:32',
+    30→    gradient: 'from-burgundy to-burgundy-dark',
+    31→  },
+    32→  {
+    33→    icon: <Heart className="w-7 h-7" />,
+    34→    title: 'Being',
+    35→    description: 'Becoming more like Christ in purpose, heart, and character, living self-sacrificially and faithfully in every aspect of life.',
+    36→    verse: '2 Corinthians 3:18',
+    37→    gradient: 'from-gold-dark to-gold',
+    38→  },
+    39→  {
+    40→    icon: <Globe className="w-7 h-7" />,
+    41→    title: 'Going',
+    42→    description: 'Actively sharing the Gospel and impacting culture with God\'s redemptive work, spreading His message to all nations.',
+    43→    verse: 'John 15:5',
+    44→    gradient: 'from-burgundy-dark to-burgundy',
+    45→  },
+    46→];
+    47→
+    48→const objectives = [
+    49→  { icon: <Cross className="w-5 h-5" />, title: 'Preach the Gospel', description: 'Proclaim Jesus Christ as the only way of salvation through faith, fulfilling the Great Commission.' },
+    50→  { icon: <Users className="w-5 h-5" />, title: 'Evangelism & Ministry Activities', description: 'Conduct revival meetings, seminars, crusades, camps, and rallies to spread the Gospel.' },
+    51→  { icon: <Church className="w-5 h-5" />, title: 'Church Planting', description: 'Establish churches under the ministry\'s name in different localities.' },
+    52→  { icon: <TrendingUp className="w-5 h-5" />, title: 'Empowerment & Talent Development', description: 'Identify and develop God-given talents and abilities for personal growth and ministry effectiveness.' },
+    53→  { icon: <HandHeart className="w-5 h-5" />, title: 'Support for Vulnerable Groups', description: 'Provide love and care to people living with HIV/AIDS and other vulnerable communities.' },
+    54→  { icon: <GraduationCap className="w-5 h-5" />, title: 'Promote Christian Education', description: 'Improve children\'s education by opening Christian schools, colleges, Bible schools, and daycare centres.' },
+    55→  { icon: <Scale className="w-5 h-5" />, title: 'Peace & Reconciliation', description: 'Cooperate with churches, missions, and organisations to promote peace in the country.' },
+    56→  { icon: <Building className="w-5 h-5" />, title: 'Community Development', description: 'Build or support schools, orphanages, hospitals, youth and women development projects, and financial empowerment programs.' },
+    57→  { icon: <Landmark className="w-5 h-5" />, title: 'Fundraising & Publicity', description: 'Organise fundraising activities and promote the ministry\'s objectives locally and internationally.' },
+    58→  { icon: <Briefcase className="w-5 h-5" />, title: 'Property & Asset Management', description: 'Acquire, lease, or purchase property and equipment necessary for ministry activities.' },
+    59→  { icon: <HandCoins className="w-5 h-5" />, title: 'Partnerships & Grants', description: 'Collaborate with governments, NGOs, and organisations to receive grants and donations supporting the ministry\'s work.' },
+    60→  { icon: <UsersRound className="w-5 h-5" />, title: 'Employment & Staffing', description: 'Hire necessary staff and volunteers to fulfill the ministry\'s objectives.' },
+    61→];
+    62→
+    63→const completedOutreaches = [
+    64→  'Canan Vision Life Church was established',
+    65→  'Establishment of God Is Able Nursery and Primary School',
+    66→];
+    67→
+    68→export function AboutPage() {
+    69→  return (
+    70→    <div className="overflow-hidden">
+    71→      {/* Hero */}
+    72→      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+    73→        <div className="absolute inset-0">
+    74→          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/church-building.png)' }} />
+    75→          <div className="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/60 to-dark" />
+    76→        </div>
+    77→        <div className="relative z-10 text-center section-padding max-w-4xl mx-auto py-32">
+    78→          <motion.span
+    79→            initial={{ opacity: 0, y: 20 }}
+    80→            animate={{ opacity: 1, y: 0 }}
+    81→            transition={{ duration: 0.6 }}
+    82→            className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6"
+    83→          >
+    84→            About Us
+    85→          </motion.span>
+    86→          <motion.h1
+    87→            initial={{ opacity: 0, y: 30 }}
+    88→            animate={{ opacity: 1, y: 0 }}
+    89→            transition={{ duration: 0.7, delay: 0.2 }}
+    90→            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6"
+    91→          >
+    92→            Know <span className="text-gold-gradient">Our Story</span>
+    93→          </motion.h1>
+    94→          <motion.p
+    95→            initial={{ opacity: 0, y: 20 }}
+    96→            animate={{ opacity: 1, y: 0 }}
+    97→            transition={{ duration: 0.7, delay: 0.4 }}
+    98→            className="text-white/70 text-base md:text-lg max-w-2xl mx-auto"
+    99→          >
+   100→            A Christ-centered ministry dedicated to empowering communities through spiritual connection to Almighty God.
+   101→          </motion.p>
+   102→        </div>
+   103→      </section>
+   104→
+   105→      {/* Historical Background */}
+   106→      <section className="relative bg-cream py-24">
+   107→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   108→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+   109→            <motion.div
+   110→              variants={fadeInLeft}
+   111→              initial="hidden"
+   112→              whileInView="visible"
+   113→              viewport={viewportOnce}
+   114→            >
+   115→              <span className="inline-block px-4 py-1.5 bg-burgundy/10 border border-burgundy/20 rounded-full text-burgundy text-xs font-medium tracking-widest uppercase mb-6 hover:bg-burgundy/20 transition-colors cursor-default">
+   116→                Historical Background
+   117→              </span>
+   118→              <h2 className="text-3xl md:text-4xl font-bold text-dark mb-6">
+   119→                Established in <span className="text-burgundy">2017</span>
+   120→              </h2>
+   121→              <p className="text-dark/70 text-base leading-relaxed mb-4">
+   122→                Life Vision Ministries LTD was established on 6th September 2017 and is incorporated in Uganda
+   123→                under the Companies Act 2012. It is a religious and charitable organisation dedicated to
+   124→                empowering communities through Spiritual connection to Almighty God.
+   125→              </p>
+   126→              <p className="text-dark/70 text-base leading-relaxed mb-4">
+   127→                We are a Christian Faith-based organisation that spreads the message of God throughout our
+   128→                Sunday Ministry, Healing and Deliverance consultation, Bible study, and many other church services.
+   129→                We strive to make the word of God more accessible to everybody in the communities.
+   130→              </p>
+   131→              <p className="text-dark/70 text-base leading-relaxed mb-6">
+   132→                We spread the gospel of Jesus Christ and the Ministry of peace and reconciliation in communities,
+   133→                cultures, and the country at large in conflicts. Many communities we work with in Rakai District
+   134→                often fall far short of having the most basic provisions of adequate health, food, clean water,
+   135→                clothing, shelter, and school for themselves and their children.
+   136→              </p>
+   137→              <div className="p-4 bg-gold/5 border-l-4 border-gold rounded-r-sm hover:bg-gold/10 transition-colors cursor-default">
+   138→                <p className="text-dark/80 text-sm italic">
+   139→                  &ldquo;For if I preach the gospel, that gives me no ground for boasting. For necessity is laid
+   140→                  upon me. Woe to me if I do not preach the gospel!&rdquo;
+   141→                </p>
+   142→                <p className="text-gold-dark text-xs mt-2 font-medium">— 1 Corinthians 9:16</p>
+   143→              </div>
+   144→            </motion.div>
+   145→            <motion.div
+   146→              variants={fadeInRight}
+   147→              initial="hidden"
+   148→              whileInView="visible"
+   149→              viewport={viewportOnce}
+   150→              className="relative"
+   151→            >
+   152→              <div className="relative rounded-sm overflow-hidden shadow-2xl hover-img-zoom group">
+   153→                <img src="/images/community.png" alt="Community" className="w-full h-96 object-cover" />
+   154→                <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent" />
+   155→                <div className="absolute inset-0 ring-2 ring-gold/0 group-hover:ring-gold/40 transition-all duration-500" />
+   156→              </div>
+   157→              <motion.div
+   158→                whileHover={{ scale: 1.05, rotate: -3 }}
+   159→                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+   160→                className="absolute -bottom-6 -left-6 bg-gold text-dark p-6 rounded-sm shadow-xl hover-glow"
+   161→              >
+   162→                <p className="text-3xl font-bold">2017</p>
+   163→                <p className="text-xs font-medium tracking-wider uppercase">Established</p>
+   164→              </motion.div>
+   165→            </motion.div>
+   166→          </div>
+   167→        </div>
+   168→      </section>
+   169→
+   170→      {/* What We Do */}
+   171→      <section className="relative bg-dark py-24">
+   172→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   173→          <motion.div
+   174→            variants={blurIn}
+   175→            initial="hidden"
+   176→            whileInView="visible"
+   177→            viewport={viewportOnce}
+   178→            className="text-center mb-16"
+   179→          >
+   180→            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default">
+   181→              Our Work
+   182→            </span>
+   183→            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+   184→              Along with Spreading the <span className="text-gold-gradient animate-gradient-shift">Gospel</span>
+   185→            </h2>
+   186→          </motion.div>
+   187→
+   188→          <motion.div
+   189→            variants={staggerContainer(0.12)}
+   190→            initial="hidden"
+   191→            whileInView="visible"
+   192→            viewport={viewportOnce}
+   193→            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+   194→          >
+   195→            {[
+   196→              { icon: <Church className="w-6 h-6 group-icon" />, text: 'Establish churches and schools in some of the remotest villages in Uganda.' },
+   197→              { icon: <GraduationCap className="w-6 h-6 group-icon" />, text: 'Strengthen and develop existing means of livelihood, bring primary education to school children, literacy and numeracy to youth and adults.' },
+   198→              { icon: <BookOpen className="w-6 h-6 group-icon" />, text: 'Promote the furtherance of the spread of the gospel and teaching of Jesus Christ in traditional church settings.' },
+   199→              { icon: <Heart className="w-6 h-6 group-icon" />, text: 'Provide love and care to people living with HIV/AIDS and cooperate with churches, missions, and organisations for peace.' },
+   200→            ].map((item, i) => (
+   201→              <motion.div key={i} variants={i % 2 === 0 ? fadeInLeft : fadeInRight}>
+   202→                <Card className="group bg-white/5 border-gold/10 hover:border-gold/40 transition-all duration-500 rounded-sm h-full hover-lift hover-shimmer cursor-default">
+   203→                  <CardContent className="p-6 flex items-start gap-4">
+   204→                    <div className="w-12 h-12 shrink-0 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold/20 group-hover:scale-110 transition-all duration-500">
+   205→                      {item.icon}
+   206→                    </div>
+   207→                    <p className="text-white/70 text-sm leading-relaxed group-hover:text-white/90 transition-colors">{item.text}</p>
+   208→                  </CardContent>
+   209→                </Card>
+   210→              </motion.div>
+   211→            ))}
+   212→          </motion.div>
+   213→        </div>
+   214→      </section>
+   215→
+   216→      {/* Vision & Mission */}
+   217→      <section className="relative bg-cream py-24 overflow-hidden">
+   218→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   219→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+   220→            {/* Vision */}
+   221→            <motion.div
+   222→              variants={fadeInLeft}
+   223→              initial="hidden"
+   224→              whileInView="visible"
+   225→              viewport={viewportOnce}
+   226→            >
+   227→              <Card className="group bg-white border-0 shadow-xl rounded-sm h-full overflow-hidden hover-lift hover-shimmer cursor-default">
+   228→                <div className="h-2 bg-gradient-to-r from-gold to-gold-dark animate-gradient-shift" />
+   229→                <CardContent className="p-8">
+   230→                  <div className="flex items-center gap-3 mb-6">
+   231→                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+   232→                      <Eye className="w-6 h-6 text-white" />
+   233→                    </div>
+   234→                    <div>
+   235→                      <h3 className="text-2xl font-bold text-dark group-hover:text-gold-dark transition-colors">Vision Statement</h3>
+   236→                      <p className="text-gold-dark text-xs tracking-wider uppercase font-medium">Proverbs 29:18</p>
+   237→                    </div>
+   238→                  </div>
+   239→                  <p className="text-dark/80 text-base leading-relaxed mb-4 font-medium">
+   240→                    To raise a Christ-centered generation transformed by the Word of God, equipped in identity,
+   241→                    purpose, and destiny, and empowered to impact nations through love, service, and Kingdom influence.
+   242→                  </p>
+   243→                  <Separator className="my-4 bg-gold/20" />
+   244→                  <div className="space-y-3">
+   245→                    <p className="text-dark/60 text-sm">
+   246→                      <span className="text-burgundy font-semibold">Where there is no vision, the people perish,</span> but whoever
+   247→                      obeys the law is happy — Proverbs 29:18.
+   248→                    </p>
+   249→                    <p className="text-dark/60 text-sm">
+   250→                      Expressing God&apos;s vision suggesting clear purpose and direction is essential for thriving.
+   251→                      Emphasizing God&apos;s plans for prosperity and a hopeful future — Jeremiah 29:11.
+   252→                    </p>
+   253→                  </div>
+   254→                </CardContent>
+   255→              </Card>
+   256→            </motion.div>
+   257→
+   258→            {/* Mission */}
+   259→            <motion.div
+   260→              variants={fadeInRight}
+   261→              initial="hidden"
+   262→              whileInView="visible"
+   263→              viewport={viewportOnce}
+   264→            >
+   265→              <Card className="group bg-white border-0 shadow-xl rounded-sm h-full overflow-hidden hover-lift hover-shimmer cursor-default">
+   266→                <div className="h-2 bg-gradient-to-r from-burgundy to-burgundy-dark animate-gradient-shift" />
+   267→                <CardContent className="p-8">
+   268→                  <div className="flex items-center gap-3 mb-6">
+   269→                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-burgundy to-burgundy-dark flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500">
+   270→                      <Target className="w-6 h-6 text-white" />
+   271→                    </div>
+   272→                    <div>
+   273→                      <h3 className="text-2xl font-bold text-dark group-hover:text-burgundy transition-colors">Mission Statement</h3>
+   274→                      <p className="text-burgundy text-xs tracking-wider uppercase font-medium">Matthew 28:19-20</p>
+   275→                    </div>
+   276→                  </div>
+   277→                  <p className="text-dark/80 text-base leading-relaxed mb-4 font-medium">
+   278→                    Our mission is to express the love of God to the world and serve humanity with compassion,
+   279→                    while making Christ known to all nations. We are committed to teaching biblical principles
+   280→                    that transform lives, training and equipping believers for ministry, and developing men
+   281→                    and women who understand their God-given identity, purpose, and significance for the
+   282→                    advancement of the Kingdom of God.
+   283→                  </p>
+   284→                  <Separator className="my-4 bg-burgundy/20" />
+   285→                  <p className="text-dark/60 text-sm">
+   286→                    To train, equip, motivate, and empower men and women for Kingdom-based significance, and by
+   287→                    extension, societal impact. Through image building, identity, vision, and purpose based ministry,
+   288→                    to the end that the individual will realize the significance of his or her individuality, gain a
+   289→                    positive picture of his or her God-given destiny, resulting in self-discovery and a maximized
+   290→                    life for Kingdom advancement.
+   291→                  </p>
+   292→                </CardContent>
+   293→              </Card>
+   294→            </motion.div>
+   295→          </div>
+   296→        </div>
+   297→      </section>
+   298→
+   299→      {/* Core Values */}
+   300→      <section className="relative bg-dark py-24 overflow-hidden">
+   301→        <div className="absolute inset-0">
+   302→          <div className="absolute top-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl animate-breathe" />
+   303→          <div className="absolute bottom-0 right-0 w-96 h-96 bg-burgundy/5 rounded-full blur-3xl animate-breathe" style={{ animationDelay: '1.5s' }} />
+   304→        </div>
+   305→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding relative">
+   306→          <motion.div
+   307→            variants={blurIn}
+   308→            initial="hidden"
+   309→            whileInView="visible"
+   310→            viewport={viewportOnce}
+   311→            className="text-center mb-16"
+   312→          >
+   313→            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default">
+   314→              Core Values
+   315→            </span>
+   316→            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+   317→              The Foundation of <span className="text-gold-gradient animate-gradient-shift">Our Faith</span>
+   318→            </h2>
+   319→          </motion.div>
+   320→
+   321→          <motion.div
+   322→            variants={staggerContainer(0.12)}
+   323→            initial="hidden"
+   324→            whileInView="visible"
+   325→            viewport={viewportOnce}
+   326→            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+   327→          >
+   328→            {coreValues.map((value) => (
+   329→              <motion.div key={value.title} variants={staggerItemScale}>
+   330→                <Card className={`group bg-gradient-to-br from-white/5 to-transparent border border-gold/10 hover:border-gold/40 transition-all duration-500 rounded-sm h-full text-center hover-lift hover-shimmer cursor-default`}>
+   331→                  <CardContent className="p-6">
+   332→                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br ${value.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}>
+   333→                      {value.icon}
+   334→                    </div>
+   335→                    <h3 className="text-white font-bold text-lg mb-2 group-hover:text-gold transition-colors">{value.title}</h3>
+   336→                    <p className="text-white/50 text-sm leading-relaxed mb-3">{value.description}</p>
+   337→                    <p className="text-gold/60 text-xs font-medium group-hover:text-gold transition-colors">{value.verse}</p>
+   338→                  </CardContent>
+   339→                </Card>
+   340→              </motion.div>
+   341→            ))}
+   342→          </motion.div>
+   343→        </div>
+   344→      </section>
+   345→
+   346→      {/* Core Objectives */}
+   347→      <section className="relative bg-cream py-24">
+   348→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   349→          <motion.div
+   350→            variants={fadeInUp}
+   351→            initial="hidden"
+   352→            whileInView="visible"
+   353→            viewport={viewportOnce}
+   354→            className="text-center mb-16"
+   355→          >
+   356→            <span className="inline-block px-4 py-1.5 bg-burgundy/10 border border-burgundy/20 rounded-full text-burgundy text-xs font-medium tracking-widest uppercase mb-6 hover:bg-burgundy/20 transition-colors cursor-default">
+   357→              Core Objectives
+   358→            </span>
+   359→            <h2 className="text-3xl md:text-5xl font-bold text-dark mb-4">
+   360→              Our <span className="text-burgundy">Strategic</span> Objectives
+   361→            </h2>
+   362→          </motion.div>
+   363→
+   364→          <motion.div
+   365→            variants={staggerContainer(0.06)}
+   366→            initial="hidden"
+   367→            whileInView="visible"
+   368→            viewport={viewportOnce}
+   369→            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+   370→          >
+   371→            {objectives.map((obj) => (
+   372→              <motion.div key={obj.title} variants={staggerItem}>
+   373→                <Card className="group bg-white hover:shadow-xl border-dark/5 hover:border-gold/40 transition-all duration-500 rounded-sm h-full hover-lift cursor-default">
+   374→                  <CardContent className="p-5 flex items-start gap-3">
+   375→                    <div className="w-10 h-10 shrink-0 rounded-lg bg-gradient-to-br from-gold/10 to-burgundy/10 flex items-center justify-center text-burgundy group-hover:text-gold-dark group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 group-hover:from-gold/20 group-hover:to-burgundy/20">
+   376→                      {obj.icon}
+   377→                    </div>
+   378→                    <div>
+   379→                      <h4 className="text-dark font-bold text-sm mb-1 group-hover:text-burgundy transition-colors">{obj.title}</h4>
+   380→                      <p className="text-dark/60 text-xs leading-relaxed">{obj.description}</p>
+   381→                    </div>
+   382→                  </CardContent>
+   383→                </Card>
+   384→              </motion.div>
+   385→            ))}
+   386→          </motion.div>
+   387→        </div>
+   388→      </section>
+   389→
+   390→      {/* Overall Aim */}
+   391→      <section className="relative py-20 overflow-hidden">
+   392→        <div className="absolute inset-0">
+   393→          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/cross-sunrise.png)' }} />
+   394→          <div className="absolute inset-0 bg-dark/85" />
+   395→        </div>
+   396→        <div className="relative max-w-4xl mx-auto section-padding text-center">
+   397→          <motion.div
+   398→            variants={scaleIn}
+   399→            initial="hidden"
+   400→            whileInView="visible"
+   401→            viewport={viewportOnce}
+   402→          >
+   403→            <Compass className="w-12 h-12 text-gold mx-auto mb-6 animate-breathe" />
+   404→            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Overall Aim</h2>
+   405→            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+   406→              The aim of Vision Life Ministries Ltd is to raise empowered, Spirit-led believers who live
+   407→              purposeful, impactful lives, advancing the Kingdom of God in their communities, nations, and
+   408→              the world. We seek to inspire transformation, cultivate strong biblical foundations, and
+   409→              prepare individuals for meaningful ministry and global influence.
+   410→            </p>
+   411→          </motion.div>
+   412→        </div>
+   413→      </section>
+   414→
+   415→      {/* Our Pastors */}
+   416→      <section className="relative bg-cream py-24">
+   417→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   418→          <motion.div
+   419→            variants={blurIn}
+   420→            initial="hidden"
+   421→            whileInView="visible"
+   422→            viewport={viewportOnce}
+   423→            className="text-center mb-16"
+   424→          >
+   425→            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold-dark text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default">
+   426→              Our Pastors
+   427→            </span>
+   428→            <h2 className="text-3xl md:text-5xl font-bold text-dark">
+   429→              Spiritual <span className="text-burgundy">Leadership</span>
+   430→            </h2>
+   431→          </motion.div>
+   432→
+   433→          <motion.div
+   434→            variants={staggerContainer(0.15)}
+   435→            initial="hidden"
+   436→            whileInView="visible"
+   437→            viewport={viewportOnce}
+   438→            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+   439→          >
+   440→            {[
+   441→              {
+   442→                name: 'Pastor Akampulira Edson',
+   443→                role: 'The Vision Bearer & Managing Director',
+   444→                description: 'Called by God to establish Vision Life Ministries, Pastor Edson carries the vision to reach, restore, and equip believers for Kingdom impact.',
+   445→                image: '/images/pastor-edson.png',
+   446→              },
+   447→              {
+   448→                name: 'Pr. Rwebiaro Benon',
+   449→                role: 'Co-Founder, Overseas Canan Life Church Ministries',
+   450→                description: 'A dedicated co-laborer in the Gospel, Pr. Benon oversees the Canan Life Church Ministries and partners in the vision of transformation.',
+   451→                image: '/images/pastor-benon.png',
+   452→              },
+   453→            ].map((pastor) => (
+   454→              <motion.div key={pastor.name} variants={staggerItemScale}>
+   455→                <Card className="group bg-white border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-sm overflow-hidden text-center hover-lift hover-shimmer cursor-default">
+   456→                  <div className="h-2 bg-gradient-to-r from-gold to-burgundy animate-gradient-shift" />
+   457→                  <CardContent className="p-8">
+   458→                    <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-gold/20 shadow-lg bg-gradient-to-br from-gold/20 to-burgundy/20 flex items-center justify-center group-hover:ring-gold/50 group-hover:scale-105 transition-all duration-500">
+   459→                      {pastor.image ? (
+   460→                        <img
+   461→                          src={pastor.image}
+   462→                          alt={`Portrait of ${pastor.name}`}
+   463→                          className="w-full h-full object-cover"
+   464→                        />
+   465→                      ) : (
+   466→                        <Star className="w-10 h-10 text-gold" />
+   467→                      )}
+   468→                    </div>
+   469→                    <h3 className="text-xl font-bold text-dark mb-1 group-hover:text-burgundy transition-colors">{pastor.name}</h3>
+   470→                    <p className="text-burgundy text-xs font-medium tracking-wider uppercase mb-4">{pastor.role}</p>
+   471→                    <p className="text-dark/60 text-sm leading-relaxed">{pastor.description}</p>
+   472→                  </CardContent>
+   473→                </Card>
+   474→              </motion.div>
+   475→            ))}
+   476→          </motion.div>
+   477→        </div>
+   478→      </section>
+   479→
+   480→      {/* Completed Outreaches */}
+   481→      <section className="relative bg-dark py-20">
+   482→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   483→          <motion.div
+   484→            variants={fadeInUp}
+   485→            initial="hidden"
+   486→            whileInView="visible"
+   487→            viewport={viewportOnce}
+   488→            className="text-center mb-12"
+   489→          >
+   490→            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+   491→              Completed <span className="text-gold-gradient animate-gradient-shift">Outreaches</span>
+   492→            </h2>
+   493→          </motion.div>
+   494→          <motion.div
+   495→            variants={staggerContainer(0.15)}
+   496→            initial="hidden"
+   497→            whileInView="visible"
+   498→            viewport={viewportOnce}
+   499→            className="max-w-2xl mx-auto space-y-4"
+   500→          >
+   501→            {completedOutreaches.map((outreach, i) => (
+   502→              <motion.div
+   503→                key={i}
+   504→                variants={fadeInLeft}
+   505→                className="group flex items-center gap-4 p-4 bg-gold/5 border border-gold/10 rounded-sm hover:bg-gold/10 hover:border-gold/40 transition-all duration-400 hover-lift cursor-default"
+   506→              >
+   507→                <div className="w-8 h-8 shrink-0 rounded-full bg-gold/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500">
+   508→                  <Award className="w-4 h-4 text-gold" />
+   509→                </div>
+   510→                <p className="text-white/80 text-sm group-hover:text-white transition-colors">{outreach}</p>
+   511→              </motion.div>
+   512→            ))}
+   513→          </motion.div>
+   514→        </div>
+   515→      </section>
+   516→    </div>
+   517→  );
+   518→}
+   519→

@@ -1,0 +1,582 @@
+     1→     1→'use client';
+     2→     2→
+     3→     3→import { motion, useScroll, useTransform } from 'framer-motion';
+     4→     4→import { useRef } from 'react';
+     5→     5→import { useNavigation } from '@/store/navigation';
+     6→     6→import { Button } from '@/components/ui/button';
+     7→     7→import { Card, CardContent } from '@/components/ui/card';
+     8→     8→import {
+     9→     9→  Church, BookOpen, Heart, Users, ArrowRight, Phone,
+    10→    10→  Globe, HandHeart, Shield, Sparkles, ChevronRight
+    11→    11→} from 'lucide-react';
+    12→    12→import { AnimatedTestimonials } from '@/components/ui/animated-testimonials';
+    13→    13→import {
+    14→    14→  fadeInUp, fadeInLeft, fadeInRight, scaleIn, blurIn,
+    15→    15→  staggerContainer, staggerItem, staggerItemScale, viewportOnce, EASE_OUT,
+    16→    16→} from '@/lib/animations';
+    17→    17→
+    18→    18→const pathwaySteps = [
+    19→    19→  {
+    20→    20→    icon: <Globe className="w-6 h-6" />,
+    21→    21→    step: '01',
+    22→    22→    title: 'Encounter Christ',
+    23→    23→    subtitle: 'Spiritual Wellbeing & Worship',
+    24→    24→    description: 'Prayer, Worship Encounters, Spiritual Healing — experiencing the transformative presence of God.',
+    25→    25→    color: 'from-gold/20 to-gold/5',
+    26→    26→    borderColor: 'border-gold/30',
+    27→    27→  },
+    28→    28→  {
+    29→    29→    icon: <BookOpen className="w-6 h-6" />,
+    30→    30→    step: '02',
+    31→    31→    title: 'Grow in Christ',
+    32→    32→    subtitle: 'Discipleship & Formation',
+    33→    33→    description: 'Biblical Teaching, Spiritual Disciplines, Christlike Character — deepening your walk with God.',
+    34→    34→    color: 'from-burgundy/20 to-burgundy/5',
+    35→    35→    borderColor: 'border-burgundy/30',
+    36→    36→  },
+    37→    37→  {
+    38→    38→    icon: <Sparkles className="w-6 h-6" />,
+    39→    39→    step: '03',
+    40→    40→    title: 'Discover Calling',
+    41→    41→    subtitle: 'Identity & Purpose',
+    42→    42→    description: 'Identity in Christ, Gift Discovery, Destiny Clarity — finding your God-given purpose.',
+    43→    43→    color: 'from-gold/20 to-gold/5',
+    44→    44→    borderColor: 'border-gold/30',
+    45→    45→  },
+    46→    46→  {
+    47→    47→    icon: <Shield className="w-6 h-6" />,
+    48→    48→    step: '04',
+    49→    49→    title: 'Equip Believers',
+    50→    50→    subtitle: 'Leadership & Development',
+    51→    51→    description: 'Ministry Training, Leadership Growth, Spiritual Activation — preparing for kingdom service.',
+    52→    52→    color: 'from-burgundy/20 to-burgundy/5',
+    53→    53→    borderColor: 'border-burgundy/30',
+    54→    54→  },
+    55→    55→  {
+    56→    56→    icon: <Users className="w-6 h-6" />,
+    57→    57→    step: '05',
+    58→    58→    title: 'Impact Society',
+    59→    59→    subtitle: 'Community Transformation',
+    60→    60→    description: 'Compassion Ministry, Skills & Empowerment, Social Outreach — making a difference in communities.',
+    61→    61→    color: 'from-gold/20 to-gold/5',
+    62→    62→    borderColor: 'border-gold/30',
+    63→    63→  },
+    64→    64→  {
+    65→    65→    icon: <HandHeart className="w-6 h-6" />,
+    66→    66→    step: '06',
+    67→    67→    title: 'Send Light',
+    68→    68→    subtitle: 'Mission & Kingdom Influence',
+    69→    69→    description: 'Community Witness, Marketplace Influence, Global Mission — extending God\'s kingdom beyond borders.',
+    70→    70→    color: 'from-burgundy/20 to-burgundy/5',
+    71→    71→    borderColor: 'border-burgundy/30',
+    72→    72→  },
+    73→    73→];
+    74→    74→
+    75→    75→const whatToExpect = [
+    76→    76→  {
+    77→    77→    icon: <Church className="w-8 h-8" />,
+    78→    78→    title: 'Sunday Worship',
+    79→    79→    description: 'Join us every Sunday 9:00 AM for a powerful encounter with God through praise, worship, and the Word.',
+    80→    80→  },
+    81→    81→  {
+    82→    82→    icon: <BookOpen className="w-8 h-8" />,
+    83→    83→    title: 'Bible Study',
+    84→    84→    description: 'Structured classes to grow your faith, from foundation to leadership, diving deep into Scripture.',
+    85→    85→  },
+    86→    86→  {
+    87→    87→    icon: <Heart className="w-8 h-8" />,
+    88→    88→    title: 'Healing & Deliverance',
+    89→    89→    description: 'Experience God\'s healing power through prayer and deliverance consultations with our pastoral team.',
+    90→    90→  },
+    91→    91→  {
+    92→    92→    icon: <Users className="w-8 h-8" />,
+    93→    93→    title: 'Community Outreach',
+    94→    94→    description: 'Reaching communities with compassion, empowerment, and the Gospel in Rakai District and beyond.',
+    95→    95→  },
+    96→    96→  {
+    97→    97→    icon: <HandHeart className="w-8 h-8" />,
+    98→    98→    title: 'Giving',
+    99→    99→    description: 'Partner with us in tithes, offerings, and kingdom investment to transform lives and communities.',
+   100→   100→  },
+   101→   101→  {
+   102→   102→    icon: <Globe className="w-8 h-8" />,
+   103→   103→    title: 'Missions',
+   104→   104→    description: 'Establishing churches and schools in remote villages, spreading the Gospel to all nations.',
+   105→   105→  },
+   106→   106→];
+   107→   107→
+   108→   108→const testimonials = [
+   109→   109→  {
+   110→   110→    quote:
+   111→   111→      "Before I came to Vision Life Ministries, I was broken and had lost all hope. Through the healing and deliverance ministry, I encountered God's restoring power. Today I am free, whole, and serving in the worship team. God truly restores!",
+   112→   112→    name: "Grace Nakamya",
+   113→   113→    designation: "Worship Team Member, VLM Rakai",
+   114→   114→    src: "/images/testimonial-1.png",
+   115→   115→  },
+   116→   116→  {
+   117→   117→    quote:
+   118→   118→      "The youth ministry at Vision Life changed the trajectory of my life. I was heading down a destructive path, but through the discipleship program, I discovered my purpose in Christ. Now I mentor other young people in our community.",
+   119→   119→    name: "Emmanuel Ssebunya",
+   120→   120→    designation: "Youth Leader, VLM Rakai",
+   121→   121→    src: "/images/testimonial-2.png",
+   122→   122→  },
+   123→   123→  {
+   124→   124→    quote:
+   125→   125→      "As a widow, I struggled to provide for my children. The compassion ministry at Vision Life not only provided practical support but also equipped me with skills through their financial empowerment program. I can now sustain my family with dignity.",
+   126→   126→    name: "Margaret Nalubega",
+   127→   127→    designation: "Women's Ministry Member, VLM Rakai",
+   128→   128→    src: "/images/testimonial-3.png",
+   129→   129→  },
+   130→   130→  {
+   131→   131→    quote:
+   132→   132→      "The Bible study program deepened my understanding of God's Word in ways I never imagined. From a new believer to now leading a home cell group — the equipping pathway at VLM is real and transformative. I am living proof.",
+   133→   133→    name: "Pastor James Mugerwa",
+   134→   134→    designation: "Cell Group Leader, VLM Rakai",
+   135→   135→    src: "/images/testimonial-4.png",
+   136→   136→  },
+   137→   137→  {
+   138→   138→    quote:
+   139→   139→      "I attended a crusade organized by Vision Life in my village and gave my life to Christ. Since then, the church they planted in our community has become my family. The missions team didn't just preach — they stayed to disciple and empower us.",
+   140→   140→    name: "Rebecca Ainembabazi",
+   141→   141→    designation: "Church Member, VLM Mission Church",
+   142→   142→    src: "/images/testimonial-5.png",
+   143→   143→  },
+   144→   144→];
+   145→   145→
+   146→   146→export function HomePage() {
+   147→   147→  const heroRef = useRef<HTMLDivElement>(null);
+   148→   148→  const { scrollYProgress } = useScroll({
+   149→   149→    target: heroRef,
+   150→   150→    offset: ['start start', 'end start'],
+   151→   151→  });
+   152→   152→  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+   153→   153→  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+   154→   154→  const { setCurrentPage } = useNavigation();
+   155→   155→
+   156→   156→  return (
+   157→   157→    <div className="overflow-hidden">
+   158→   158→      {/* Hero Section */}
+   159→   159→      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+   160→   160→        {/* Background Image with Parallax */}
+   161→   161→        <motion.div
+   162→   162→          style={{ y: heroY }}
+   163→   163→          className="absolute inset-0 z-0"
+   164→   164→        >
+   165→   165→          <div
+   166→   166→            className="absolute inset-0 bg-cover bg-center"
+   167→   167→            style={{ backgroundImage: 'url(/images/hero-banner.png)' }}
+   168→   168→          />
+   169→   169→          <div className="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/60 to-dark" />
+   170→   170→        </motion.div>
+   171→   171→
+   172→   172→        {/* Animated particles */}
+   173→   173→        <div className="absolute inset-0 z-0 overflow-hidden">
+   174→   174→          {[10, 25, 40, 55, 70, 85, 15, 35, 50, 65, 80, 5, 45, 60, 75, 20, 30, 90, 95, 38].map((pos, i) => (
+   175→   175→            <motion.div
+   176→   176→              key={i}
+   177→   177→              className="absolute w-1 h-1 bg-gold/30 rounded-full"
+   178→   178→              style={{
+   179→   179→                left: `${pos}%`,
+   180→   180→                top: `${(pos * 1.3) % 100}%`,
+   181→   181→              }}
+   182→   182→              animate={{
+   183→   183→                y: [0, -30, 0],
+   184→   184→                opacity: [0, 1, 0],
+   185→   185→              }}
+   186→   186→              transition={{
+   187→   187→                duration: 3 + (i % 5),
+   188→   188→                repeat: Infinity,
+   189→   189→                delay: (i % 7) * 0.3,
+   190→   190→              }}
+   191→   191→            />
+   192→   192→          ))}
+   193→   193→        </div>
+   194→   194→
+   195→   195→        {/* Hero Content */}
+   196→   196→        <motion.div
+   197→   197→          style={{ opacity: heroOpacity }}
+   198→   198→          className="relative z-10 text-center section-padding max-w-5xl mx-auto"
+   199→   199→        >
+   200→   200→          <motion.div
+   201→   201→            initial={{ opacity: 0, y: 30 }}
+   202→   202→            animate={{ opacity: 1, y: 0 }}
+   203→   203→            transition={{ duration: 0.8, delay: 0.2, ease: EASE_OUT }}
+   204→   204→            className="mb-6"
+   205→   205→          >
+   206→   206→            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/30 rounded-full text-gold text-xs font-medium tracking-widest uppercase animate-breathe">
+   207→   207→              Welcome to
+   208→   208→            </span>
+   209→   209→          </motion.div>
+   210→   210→
+   211→   211→          <motion.h1
+   212→   212→            initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+   213→   213→            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+   214→   214→            transition={{ duration: 0.9, delay: 0.4, ease: EASE_OUT }}
+   215→   215→            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 leading-tight"
+   216→   216→          >
+   217→   217→            <span className="text-gold-gradient animate-gradient-shift">Vision Life</span>
+   218→   218→            <br />
+   219→   219→            <span className="text-white">Ministries</span>
+   220→   220→          </motion.h1>
+   221→   221→
+   222→   222→          <motion.p
+   223→   223→            initial={{ opacity: 0, y: 30 }}
+   224→   224→            animate={{ opacity: 1, y: 0 }}
+   225→   225→            transition={{ duration: 0.8, delay: 0.6, ease: EASE_OUT }}
+   226→   226→            className="text-white/70 text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"
+   227→   227→          >
+   228→   228→            Reaching people with the love of God, Restoring people to the wholeness
+   229→   229→            of Christ&apos;s image, Equipping people to minister effectively.
+   230→   230→          </motion.p>
+   231→   231→
+   232→   232→          {/* Animated pathway indicators */}
+   233→   233→          <motion.div
+   234→   234→            initial={{ opacity: 0, y: 20 }}
+   235→   235→            animate={{ opacity: 1, y: 0 }}
+   236→   236→            transition={{ duration: 0.8, delay: 0.8 }}
+   237→   237→            className="flex flex-wrap justify-center gap-3 mb-10"
+   238→   238→          >
+   239→   239→            {['Encounter', 'Grow', 'Discover', 'Equip', 'Impact', 'Send'].map((step, i) => (
+   240→   240→              <motion.span
+   241→   241→                key={step}
+   242→   242→                className="text-gold/80 text-xs md:text-sm font-medium tracking-wider uppercase"
+   243→   243→                initial={{ opacity: 0, x: -10 }}
+   244→   244→                animate={{ opacity: 1, x: 0 }}
+   245→   245→                transition={{ delay: 1 + i * 0.1 }}
+   246→   246→              >
+   247→   247→                {step}
+   248→   248→                {i < 5 && <ChevronRight className="inline w-3 h-3 mx-1 text-gold/40" />}
+   249→   249→              </motion.span>
+   250→   250→            ))}
+   251→   251→          </motion.div>
+   252→   252→
+   253→   253→          <motion.div
+   254→   254→            initial={{ opacity: 0, y: 20 }}
+   255→   255→            animate={{ opacity: 1, y: 0 }}
+   256→   256→            transition={{ duration: 0.8, delay: 1 }}
+   257→   257→            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+   258→   258→          >
+   259→   259→            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
+   260→   260→              <Button
+   261→   261→                onClick={() => { setCurrentPage('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+   262→   262→                className="bg-gold hover:bg-gold-dark text-dark font-bold px-8 py-4 text-sm tracking-wider uppercase rounded-sm animate-pulse-glow btn-shine"
+   263→   263→              >
+   264→   264→                I&apos;m New Here
+   265→   265→                <ArrowRight className="w-4 h-4 ml-2" />
+   266→   266→              </Button>
+   267→   267→            </motion.div>
+   268→   268→            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
+   269→   269→              <Button
+   270→   270→                variant="outline"
+   271→   271→                onClick={() => { setCurrentPage('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+   272→   272→                className="border-gold/40 text-gold hover:bg-gold/10 hover:border-gold px-8 py-4 text-sm tracking-wider uppercase rounded-sm btn-shine transition-colors"
+   273→   273→              >
+   274→   274→                <Phone className="w-4 h-4 mr-2" />
+   275→   275→                Reach us
+   276→   276→              </Button>
+   277→   277→            </motion.div>
+   278→   278→          </motion.div>
+   279→   279→        </motion.div>
+   280→   280→
+   281→   281→        {/* Scroll indicator */}
+   282→   282→        <motion.div
+   283→   283→          initial={{ opacity: 0 }}
+   284→   284→          animate={{ opacity: 1 }}
+   285→   285→          transition={{ delay: 1.5 }}
+   286→   286→          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+   287→   287→        >
+   288→   288→          <motion.div
+   289→   289→            animate={{ y: [0, 8, 0] }}
+   290→   290→            transition={{ duration: 1.5, repeat: Infinity }}
+   291→   291→            className="w-6 h-10 border-2 border-gold/40 rounded-full flex items-start justify-center p-1.5"
+   292→   292→          >
+   293→   293→            <motion.div className="w-1.5 h-1.5 bg-gold rounded-full" />
+   294→   294→          </motion.div>
+   295→   295→        </motion.div>
+   296→   296→      </section>
+   297→   297→
+   298→   298→      {/* Welcome Section */}
+   299→   299→      <section className="relative bg-cream py-24 overflow-hidden">
+   300→   300→        <div className="absolute top-0 right-0 w-72 h-72 bg-gold/5 rounded-full blur-3xl animate-breathe" />
+   301→   301→        <div className="absolute bottom-0 left-0 w-72 h-72 bg-burgundy/5 rounded-full blur-3xl animate-breathe" style={{ animationDelay: '1.5s' }} />
+   302→   302→
+   303→   303→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding relative">
+   304→   304→          <motion.div
+   305→   305→            variants={blurIn}
+   306→   306→            initial="hidden"
+   307→   307→            whileInView="visible"
+   308→   308→            viewport={viewportOnce}
+   309→   309→            className="text-center mb-16"
+   310→   310→          >
+   311→   311→            <span className="inline-block px-4 py-1.5 bg-burgundy/10 border border-burgundy/20 rounded-full text-burgundy text-xs font-medium tracking-widest uppercase mb-6 hover:bg-burgundy/20 transition-colors cursor-default">
+   312→   312→              Welcome
+   313→   313→            </span>
+   314→   314→            <h2 className="text-3xl md:text-5xl font-bold text-dark mb-6">
+   315→   315→              Called to <span className="text-burgundy">Transform</span>, Sent to <span className="text-gold-dark">Shine</span>
+   316→   316→            </h2>
+   317→   317→            <p className="text-dark/60 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+   318→   318→              Vision Life Ministries is a restoration ministry designed to heal the brokenhearted.
+   319→   319→              We are a Christian Faith-based organisation that spreads the message of God throughout
+   320→   320→              our Sunday Ministry, Healing and Deliverance consultation, Bible study, and many other church services.
+   321→   321→            </p>
+   322→   322→          </motion.div>
+   323→   323→
+   324→   324→          <motion.div
+   325→   325→            variants={staggerContainer(0.15)}
+   326→   326→            initial="hidden"
+   327→   327→            whileInView="visible"
+   328→   328→            viewport={viewportOnce}
+   329→   329→            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+   330→   330→          >
+   331→   331→            {[
+   332→   332→              {
+   333→   333→                title: 'Reaching',
+   334→   334→                description: 'Reaching people with the love of God — going into all the world and making disciples of all nations.',
+   335→   335→                icon: <Globe className="w-8 h-8 group-icon" />,
+   336→   336→                gradient: 'from-gold to-gold-dark',
+   337→   337→              },
+   338→   338→              {
+   339→   339→                title: 'Restoring',
+   340→   340→                description: 'Restoring people to the wholeness of Christ\'s image — healing the brokenhearted and setting the captives free.',
+   341→   341→                icon: <Heart className="w-8 h-8 group-icon" />,
+   342→   342→                gradient: 'from-burgundy to-burgundy-dark',
+   343→   343→              },
+   344→   344→              {
+   345→   345→                title: 'Equipping',
+   346→   346→                description: 'Equipping people to minister effectively — training and empowering believers for kingdom service and societal impact.',
+   347→   347→                icon: <Shield className="w-8 h-8 group-icon" />,
+   348→   348→                gradient: 'from-gold-dark to-gold',
+   349→   349→              },
+   350→   350→            ].map((item) => (
+   351→   351→              <motion.div key={item.title} variants={staggerItemScale}>
+   352→   352→                <Card className="group bg-white border-0 shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden rounded-sm hover-lift hover-shimmer cursor-default h-full">
+   353→   353→                  <CardContent className="p-8 text-center">
+   354→   354→                    <div className={`w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}>
+   355→   355→                      {item.icon}
+   356→   356→                    </div>
+   357→   357→                    <h3 className="text-xl font-bold text-dark mb-3 group-hover:text-burgundy transition-colors">{item.title}</h3>
+   358→   358→                    <p className="text-dark/60 text-sm leading-relaxed">{item.description}</p>
+   359→   359→                  </CardContent>
+   360→   360→                </Card>
+   361→   361→              </motion.div>
+   362→   362→            ))}
+   363→   363→          </motion.div>
+   364→   364→        </div>
+   365→   365→      </section>
+   366→   366→
+   367→   367→      {/* Transformation Pathway */}
+   368→   368→      <section className="relative bg-dark py-24 overflow-hidden">
+   369→   369→        <div className="absolute inset-0">
+   370→   370→          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl animate-breathe" />
+   371→   371→        </div>
+   372→   372→
+   373→   373→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding relative">
+   374→   374→          <motion.div
+   375→   375→            variants={fadeInUp}
+   376→   376→            initial="hidden"
+   377→   377→            whileInView="visible"
+   378→   378→            viewport={viewportOnce}
+   379→   379→            className="text-center mb-16"
+   380→   380→          >
+   381→   381→            <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default">
+   382→   382→              Our Journey
+   383→   383→            </span>
+   384→   384→            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+   385→   385→              The <span className="text-gold-gradient animate-gradient-shift">Vision Life</span> Transformation Pathway
+   386→   386→            </h2>
+   387→   387→            <p className="text-white/50 text-base md:text-lg max-w-2xl mx-auto">
+   388→   388→              Six intentional steps from encountering Christ to impacting nations.
+   389→   389→            </p>
+   390→   390→          </motion.div>
+   391→   391→
+   392→   392→          <motion.div
+   393→   393→            variants={staggerContainer(0.1)}
+   394→   394→            initial="hidden"
+   395→   395→            whileInView="visible"
+   396→   396→            viewport={viewportOnce}
+   397→   397→            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+   398→   398→          >
+   399→   399→            {pathwaySteps.map((step) => (
+   400→   400→              <motion.div key={step.step} variants={staggerItem}>
+   401→   401→                <Card className={`group bg-gradient-to-br ${step.color} border ${step.borderColor} hover:border-gold/50 transition-all duration-500 overflow-hidden rounded-sm h-full hover-lift hover-shimmer cursor-default`}>
+   402→   402→                  <CardContent className="p-6">
+   403→   403→                    <div className="flex items-center gap-3 mb-4">
+   404→   404→                      <span className="text-gold/60 text-xs font-bold tracking-wider group-hover:text-gold transition-colors">STEP {step.step}</span>
+   405→   405→                      <div className="text-gold group-icon">{step.icon}</div>
+   406→   406→                    </div>
+   407→   407→                    <h3 className="text-white font-bold text-lg mb-1 group-hover:text-gold transition-colors">{step.title}</h3>
+   408→   408→                    <p className="text-gold/70 text-xs font-medium tracking-wider uppercase mb-3">{step.subtitle}</p>
+   409→   409→                    <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
+   410→   410→                  </CardContent>
+   411→   411→                </Card>
+   412→   412→              </motion.div>
+   413→   413→            ))}
+   414→   414→          </motion.div>
+   415→   415→
+   416→   416→          <motion.div
+   417→   417→            variants={scaleIn}
+   418→   418→            initial="hidden"
+   419→   419→            whileInView="visible"
+   420→   420→            viewport={viewportOnce}
+   421→   421→            className="mt-12 text-center"
+   422→   422→          >
+   423→   423→            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gold/10 border border-gold/20 rounded-full hover:bg-gold/20 hover:border-gold/40 transition-all duration-400 hover-glow cursor-default">
+   424→   424→              <Sparkles className="w-4 h-4 text-gold group-icon-pulse" />
+   425→   425→              <span className="text-gold/80 text-sm font-medium">Transformed Lives • Equipped Believers • Empowered Community • Kingdom Impact</span>
+   426→   426→            </div>
+   427→   427→          </motion.div>
+   428→   428→        </div>
+   429→   429→      </section>
+   430→   430→
+   431→   431→      {/* What to Expect */}
+   432→   432→      <section className="relative bg-cream py-24 overflow-hidden">
+   433→   433→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   434→   434→          <motion.div
+   435→   435→            variants={fadeInUp}
+   436→   436→            initial="hidden"
+   437→   437→            whileInView="visible"
+   438→   438→            viewport={viewportOnce}
+   439→   439→            className="text-center mb-16"
+   440→   440→          >
+   441→   441→            <span className="inline-block px-4 py-1.5 bg-burgundy/10 border border-burgundy/20 rounded-full text-burgundy text-xs font-medium tracking-widest uppercase mb-6 hover:bg-burgundy/20 transition-colors cursor-default">
+   442→   442→              Join Us
+   443→   443→            </span>
+   444→   444→            <h2 className="text-3xl md:text-5xl font-bold text-dark mb-4">
+   445→   445→              What to <span className="text-gold-dark">Expect</span>
+   446→   446→            </h2>
+   447→   447→            <p className="text-dark/60 text-base max-w-2xl mx-auto">
+   448→   448→              Experience the love of God in a welcoming community of believers.
+   449→   449→            </p>
+   450→   450→          </motion.div>
+   451→   451→
+   452→   452→          <motion.div
+   453→   453→            variants={staggerContainer(0.1)}
+   454→   454→            initial="hidden"
+   455→   455→            whileInView="visible"
+   456→   456→            viewport={viewportOnce}
+   457→   457→            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+   458→   458→          >
+   459→   459→            {whatToExpect.map((item) => (
+   460→   460→              <motion.div key={item.title} variants={staggerItem}>
+   461→   461→                <Card className="group bg-white border border-dark/5 hover:border-gold/40 hover:shadow-xl transition-all duration-500 rounded-sm h-full hover-lift cursor-default">
+   462→   462→                  <CardContent className="p-6 flex items-start gap-4">
+   463→   463→                    <div className="w-14 h-14 shrink-0 rounded-lg bg-gradient-to-br from-gold/10 to-burgundy/10 flex items-center justify-center text-gold group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 group-hover:from-gold/20 group-hover:to-burgundy/20">
+   464→   464→                      {item.icon}
+   465→   465→                    </div>
+   466→   466→                    <div>
+   467→   467→                      <h3 className="text-dark font-bold text-base mb-2 group-hover:text-burgundy transition-colors">{item.title}</h3>
+   468→   468→                      <p className="text-dark/60 text-sm leading-relaxed">{item.description}</p>
+   469→   469→                    </div>
+   470→   470→                  </CardContent>
+   471→   471→                </Card>
+   472→   472→              </motion.div>
+   473→   473→            ))}
+   474→   474→          </motion.div>
+   475→   475→        </div>
+   476→   476→      </section>
+   477→   477→
+   478→   478→      {/* Testimonials Section */}
+   479→   479→      <section className="relative bg-cream py-24 overflow-hidden">
+   480→   480→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+   481→   481→          <motion.div
+   482→   482→            variants={blurIn}
+   483→   483→            initial="hidden"
+   484→   484→            whileInView="visible"
+   485→   485→            viewport={viewportOnce}
+   486→   486→            className="text-center mb-16"
+   487→   487→          >
+   488→   488→            <span className="inline-block px-4 py-1.5 bg-burgundy/10 border border-burgundy/20 rounded-full text-burgundy text-xs font-medium tracking-widest uppercase mb-6 hover:bg-burgundy/20 transition-colors cursor-default">
+   489→   489→              Testimonies
+   490→   490→            </span>
+   491→   491→            <h2 className="text-3xl md:text-5xl font-bold text-dark mb-4">
+   492→   492→              Lives <span className="text-burgundy">Transformed</span> by <span className="text-gold-dark">God&apos;s Grace</span>
+   493→   493→            </h2>
+   494→   494→            <p className="text-dark/60 text-base max-w-2xl mx-auto">
+   495→   495→              Hear from members of our community whose lives have been changed through the power of God.
+   496→   496→            </p>
+   497→   497→          </motion.div>
+   498→   498→
+   499→   499→          <AnimatedTestimonials testimonials={testimonials} />
+   500→   500→        </div>
+   501→   501→      </section>
+   502→   502→
+   503→   503→      {/* Scripture Banner */}
+   504→   504→      <section className="relative py-20 overflow-hidden">
+   505→   505→        <div className="absolute inset-0">
+   506→   506→          <div className="absolute inset-0 bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url(/images/cross-sunrise.png)' }} />
+   507→   507→          <div className="absolute inset-0 bg-burgundy/80" />
+   508→   508→        </div>
+   509→   509→        <div className="relative max-w-4xl mx-auto section-padding text-center">
+   510→   510→          <motion.div
+   511→   511→            variants={scaleIn}
+   512→   512→            initial="hidden"
+   513→   513→            whileInView="visible"
+   514→   514→            viewport={viewportOnce}
+   515→   515→          >
+   516→   516→            <p className="text-gold text-lg md:text-2xl font-serif italic leading-relaxed mb-6 hover-gradient-text inline-block">
+   517→   517→              &ldquo;Now I would remind you, brothers, of the gospel I preached to you, which you received,
+   518→   518→              in which you stand, and by which you are being saved, if you hold fast to the word I preached
+   519→   519→              to you—unless you believed in vain.&rdquo;
+   520→   520→            </p>
+   521→   521→            <p className="text-gold-light/60 text-sm tracking-widest uppercase">— 1 Corinthians 15:1-4</p>
+   522→   522→          </motion.div>
+   523→   523→        </div>
+   524→   524→      </section>
+   525→   525→
+   526→   526→      {/* Give Section Preview */}
+   527→   527→      <section className="relative bg-dark py-24 overflow-hidden">
+   528→   528→        <div className="absolute inset-0">
+   529→   529→          <div className="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl animate-breathe" />
+   530→   530→          <div className="absolute bottom-0 left-0 w-96 h-96 bg-burgundy/5 rounded-full blur-3xl animate-breathe" style={{ animationDelay: '1.5s' }} />
+   531→   531→        </div>
+   532→   532→        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding relative">
+   533→   533→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+   534→   534→            <motion.div
+   535→   535→              variants={fadeInLeft}
+   536→   536→              initial="hidden"
+   537→   537→              whileInView="visible"
+   538→   538→              viewport={viewportOnce}
+   539→   539→            >
+   540→   540→              <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default">
+   541→   541→                Give Generously
+   542→   542→              </span>
+   543→   543→              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+   544→   544→                Partner With Us in <span className="text-gold-gradient animate-gradient-shift">Kingdom Work</span>
+   545→   545→              </h2>
+   546→   546→              <p className="text-white/60 text-base leading-relaxed mb-4">
+   547→   547→                &ldquo;Each of you should give what you have decided in your heart to give, not reluctantly
+   548→   548→                or under compulsion, for God loves a cheerful giver.&rdquo;
+   549→   549→              </p>
+   550→   550→              <p className="text-gold/60 text-sm tracking-wider uppercase mb-8">— 2 Corinthians 9:7</p>
+   551→   551→              <div className="flex flex-wrap gap-4">
+   552→   552→                <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
+   553→   553→                  <Button
+   554→   554→                    onClick={() => { setCurrentPage('give'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+   555→   555→                    className="bg-gold hover:bg-gold-dark text-dark font-bold px-8 py-4 text-sm tracking-wider uppercase rounded-sm btn-shine"
+   556→   556→                  >
+   557→   557→                    Give Now
+   558→   558→                    <ArrowRight className="w-4 h-4 ml-2 hover-arrow-target" />
+   559→   559→                  </Button>
+   560→   560→                </motion.div>
+   561→   561→              </div>
+   562→   562→            </motion.div>
+   563→   563→            <motion.div
+   564→   564→              variants={fadeInRight}
+   565→   565→              initial="hidden"
+   566→   566→              whileInView="visible"
+   567→   567→              viewport={viewportOnce}
+   568→   568→              className="relative"
+   569→   569→            >
+   570→   570→              <div className="relative rounded-sm overflow-hidden shadow-2xl hover-img-zoom group">
+   571→   571→                <img src="/images/give-hands.png" alt="Giving" className="w-full h-80 object-cover" />
+   572→   572→                <div className="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent" />
+   573→   573→                <div className="absolute inset-0 ring-2 ring-gold/0 group-hover:ring-gold/40 transition-all duration-500 rounded-sm" />
+   574→   574→              </div>
+   575→   575→            </motion.div>
+   576→   576→          </div>
+   577→   577→        </div>
+   578→   578→      </section>
+   579→   579→    </div>
+   580→   580→  );
+   581→   581→}
+   582→   582→

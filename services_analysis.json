@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "# Extracted Text Content\n\n## Header\nVISION LIFE MINISTRIES LTD\n\n## Navigation\nHOME\nABOUT\nPROGRAMS\nCONTACT\nDONATE\n\n## Main Section Title\nOUR SERVICES & PROGRAMMES\n\n## Services & Programmes\nBIBLE STUDY TRAINING\nEQUIPPING INDIVIDUALS WITH DEEP UNDERSTANDING OF SCRIPTURE TO STRENGTHEN THEIR FAITH AND DAILY WALK WITH GOD.\n\nYOUTH MINISTRY\nGUIDING AND EMPOWERING YOUNG PEOPLE TO GROW SPIRITUALLY, MORALLY, AND SOCIALLY AS FUTURE LEADERS.\n\nLEADERSHIP MINISTRY\nTRAINING LEADERS WITH BIBLICAL PRINCIPLES TO SERVE EFFECTIVELY IN CHURCH AND COMMUNITY ROLES.\n\nFAMILY THERAPY\nPROVIDING COUNSELLING TO STRENGTHEN FAMILY RELATIONSHIPS AND RESOLVE CONFLICTS IN A GODLY WAY.\n\nSTRESS MANAGEMENT\nHELPING INDIVIDUALS DEVELOP HEALTHY COPING SKILLS TO HANDLE LIFE'S PRESSURES AND CHALLENGES.\n\nPSYCHOLOGICAL SAFETY & MENTAL HEALTH WELLNESS\nPROMOTING MENTAL HEALTH AWARENESS AND CREATING SAFE SPACES FOR EMOTIONAL HEALING AND SUPPORT.\n\nFINANCIAL EMPOWERMENT PROGRAMS\nTEACHING FINANCIAL MANAGEMENT SKILLS TO IMPROVE LIVELIHOODS AND ECONOMIC INDEPENDENCE.\n\nYOUTH DEVELOPMENT PROJECTS\nCREATING OPPORTUNITIES FOR YOUTH TO GAIN SKILLS, EDUCATION, AND MENTORSHIP FOR A BETTER FUTURE.\n\n## Upcoming Events Section\nUPCOMING EVENTS\n\nCHRISTMAS CELEBRATION SERVICE\nDECEMBER 24, 2024\n6:00 PM\nSPECIAL CHRISTMAS EVE SERVICE CELEBRATING THE BIRTH OF JESUS CHRIST\nREGISTER\n\nCHRISTMAS CELEBRATION SERVICE\nDECEMBER 24, 2024\n6:00 PM\nSPECIAL CHRISTMAS EVE SERVICE CELEBRATING THE BIRTH OF JESUS CHRIST\nREGISTER\n\n## Footer\nVISION LIFE MINISTRIES LTD\n\nAbout Us\nVision Life Ministries Ltd is a Christ-Centered Ministry Based in Uganda, Committed To Preaching The Gospel of Jesus Christ And Transforming Lives Through Love, Faith, And Practical Support. Established With A Passion To Fulfill The Great Commission, Vision Life Ministries Reaches Out To People With The Message Of Salvation, Conducts Revival Meetings, Seminars, Crusades, And Christian Camps, And Establishes Churches In Various Localities To Expand God's Kingdom. We Are Dedicated To Identifying, Equipping, And Empowering People's God-Given Talents And Abilities For Personal Growth, Ministry Effectiveness, And Community Transformation.\n\nQuick Links\nAbout Us\nPrograms\nContact Us\n\nSUBSCRIBE TO OUR NEWSLETTER\nSUBSCRIBE\n\nCOPYRIGHT © 2025 VISION LIFE MINISTRIES LTD\nDEVELOPED BY AGABA EXEVIAIR\n\n# Color Codes (Hex Values)\n\n- Gold: #FFD700\n- Burgundy/Maroon: #800020\n- White: #FFFFFF\n- Blue (accent): #1E90FF\n- Black (background): #000000\n- Light gray (background): #F5F5F5\n- Button gradient: #FFD700 to #1E90FF (gold to blue)",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1780642235,
+  "id": "202606051450177b135c87a0334774",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606051450177b135c87a0334774",
+  "usage": {
+    "completion_tokens": 726,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 6163,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 6889
+  }
+}
