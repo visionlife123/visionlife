@@ -169,16 +169,22 @@ export function Footer() {
                 <Phone className="mt-0.5 size-4 shrink-0 text-gold/80" />
                 <div className="flex flex-col gap-1">
                   <a
-                    href="tel:+97450769794"
-                    className="text-[13px] text-cream/60 transition-colors hover:text-gold"
-                  >
-                    +974 5076 9794
-                  </a>
-                  <a
                     href="tel:+97451193650"
                     className="text-[13px] text-cream/60 transition-colors hover:text-gold"
                   >
                     +974 5119 3650
+                  </a>
+                  <a
+                    href="tel:+256741096594"
+                    className="text-[13px] text-cream/60 transition-colors hover:text-gold"
+                  >
+                    +256741096594
+                  </a>
+                  <a
+                    href="tel:+256777348011"
+                    className="text-[13px] text-cream/60 transition-colors hover:text-gold"
+                  >
+                    +256777348011
                   </a>
                 </div>
               </li>

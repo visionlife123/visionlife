@@ -21,7 +21,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Phone',
-    details: ['+974 5076 9794', '+974 5119 3650'],
+    details: ['+974 5119 3650', '+256741096594', '+256777348011'],
   },
   {
     icon: Mail,
@@ -76,7 +76,6 @@ export function ContactPage() {
     lastName: '',
     email: '',
     phone: '',
-    subject: '',
     message: '',
   });
   const [isSending, setIsSending] = useState(false);
@@ -106,13 +105,11 @@ export function ContactPage() {
         SERVICE_ID,
         TEMPLATE_ID,
         {
-          from_name: fullName,
-          user_name: fullName,
-          name: fullName,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           email: formData.email,
-          reply_to: formData.email,
           phone: formData.phone,
-          subject: formData.subject,
+          time: new Date().toLocaleString(),
           message: formData.message,
           to_name: 'Vision Life Ministries',
         },
@@ -121,7 +118,7 @@ export function ContactPage() {
 
       setFeedbackType('success');
       setFeedbackMessage('Thank you! Your message has been sent successfully.');
-      setFormData({ firstName: '', lastName: '', email: '', phone: '', subject: '', message: '' });
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
     } catch (error) {
       console.error('EmailJS submission failed:', error);
       setFeedbackType('error');
@@ -151,7 +148,7 @@ export function ContactPage() {
           <div className="flex flex-wrap gap-x-10 gap-y-3 text-cream/50">
             <div>
               <p className="text-[9px] uppercase tracking-[0.22em] text-cream/30">Call</p>
-              <p className="mt-1.5 font-display text-lg text-cream">+974 5076 9794</p>
+              <p className="mt-1.5 font-display text-lg text-cream">+256741096594</p>
             </div>
             <div>
               <p className="text-[9px] uppercase tracking-[0.22em] text-cream/30">Email</p>
@@ -349,23 +346,6 @@ export function ContactPage() {
                         className={fieldClasses}
                       />
                     </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="mb-2 block text-[9px] uppercase tracking-[0.2em] text-dark/40"
-                    >
-                      Subject *
-                    </label>
-                    <Input
-                      id="subject"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      placeholder="Prayer Request, General Inquiry..."
-                      required
-                      className={fieldClasses}
-                    />
                   </div>
 
                   <div>
