@@ -121,8 +121,16 @@ export function ContactPage() {
       setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
     } catch (error) {
       console.error('EmailJS submission failed:', error);
+      const detail =
+        (error as { text?: string; message?: string })?.text ||
+        (error as { text?: string; message?: string })?.message ||
+        '';
       setFeedbackType('error');
-      setFeedbackMessage('Sorry, your message could not be sent right now. Please try again later.');
+      setFeedbackMessage(
+        detail
+          ? `Sorry, your message could not be sent: ${detail}`
+          : 'Sorry, your message could not be sent right now. Please try again later.',
+      );
     } finally {
       setIsSending(false);
       setTimeout(() => {
