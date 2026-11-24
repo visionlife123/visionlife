@@ -46,7 +46,7 @@ const fallbackSermons: Sermon[] = [
     id: '3', title: 'Healing for the Brokenhearted', preacher: 'Pr. Rwebiaro Benon',
     date: 'December 29, 2024', duration: '38 min', category: 'Healing Service',
     description: "Vision Life Ministries is a restoration ministry designed to heal the brokenhearted. This sermon explores God's heart for restoration and wholeness.",
-    scripture: 'Isaiah 61:1-3', imageUrl: '/images/hero-worship.png', featured: false,
+    scripture: 'Isaiah 61:1-3', imageUrl: '/images/sermon.png', featured: false,
   },
   {
     id: '4', title: 'Kingdom Identity: Who You Are in Christ', preacher: 'Pastor Akampulira Edson',

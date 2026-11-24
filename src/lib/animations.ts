@@ -9,69 +9,101 @@ export const SPRING: Transition = { type: 'spring', stiffness: 220, damping: 26 
 
 /* ------------------------------------------------------------------ */
 /*  Scroll-reveal variants (use with motion + whileInView)            */
+/*  MotionConfig reducedMotion="user" disables the transforms for      */
+/*  visitors who prefer reduced motion.                                */
 /* ------------------------------------------------------------------ */
 
 export const fadeInUp: Variants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: EASE_OUT },
+  },
 };
 
 export const fadeInDown: Variants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: -24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: EASE_OUT },
+  },
 };
 
 export const fadeInLeft: Variants = {
-  hidden: { opacity: 1, x: 0 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE_OUT } },
+  hidden: { opacity: 0, x: -32 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 1, ease: EASE_OUT },
+  },
 };
 
 export const fadeInRight: Variants = {
-  hidden: { opacity: 1, x: 0 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE_OUT } },
+  hidden: { opacity: 0, x: 32 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 1, ease: EASE_OUT },
+  },
 };
 
 export const scaleIn: Variants = {
-  hidden: { opacity: 1, scale: 1 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE_OUT } },
+  hidden: { opacity: 0, scale: 0.965 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.9, ease: EASE_OUT },
+  },
 };
 
 export const blurIn: Variants = {
-  hidden: { opacity: 1, filter: 'blur(0px)', y: 0 },
+  hidden: { opacity: 0, filter: 'blur(12px)', y: 22 },
   visible: {
     opacity: 1,
     filter: 'blur(0px)',
     y: 0,
-    transition: { duration: 0.7, ease: EASE_OUT },
+    transition: { duration: 1, ease: EASE_OUT },
   },
 };
 
 export const rotateIn: Variants = {
-  hidden: { opacity: 1, rotate: 0, scale: 1 },
+  hidden: { opacity: 0, rotate: -2, scale: 0.97 },
   visible: {
     opacity: 1,
     rotate: 0,
     scale: 1,
-    transition: { duration: 0.7, ease: EASE_OUT },
+    transition: { duration: 0.9, ease: EASE_OUT },
   },
 };
 
 export const flipIn: Variants = {
-  hidden: { opacity: 1, rotateX: 0, y: 0 },
+  hidden: { opacity: 0, rotateX: 12, y: 20 },
   visible: {
     opacity: 1,
     rotateX: 0,
     y: 0,
-    transition: { duration: 0.8, ease: EASE_OUT },
+    transition: { duration: 1, ease: EASE_OUT },
   },
 };
 
 export const clipReveal: Variants = {
-  hidden: { opacity: 1, clipPath: 'inset(0 0% 0 0)' },
+  hidden: { opacity: 0, clipPath: 'inset(0 0 100% 0)' },
   visible: {
     opacity: 1,
-    clipPath: 'inset(0 0% 0 0)',
-    transition: { duration: 0.9, ease: EASE_IN_OUT },
+    clipPath: 'inset(0 0 0% 0)',
+    transition: { duration: 1.2, ease: EASE_IN_OUT },
+  },
+};
+
+/** Masked image reveal — pair with an overflow-hidden wrapper */
+export const imageReveal: Variants = {
+  hidden: { clipPath: 'inset(0 0 100% 0)', scale: 1.08 },
+  visible: {
+    clipPath: 'inset(0 0 0% 0)',
+    scale: 1,
+    transition: { duration: 1.3, ease: EASE_IN_OUT },
   },
 };
 
@@ -86,43 +118,57 @@ export const staggerContainer = (stagger = 0.1, delay = 0): Variants => ({
 });
 
 export const staggerItem: Variants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: 26 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.85, ease: EASE_OUT },
+  },
 };
 
 export const staggerItemScale: Variants = {
-  hidden: { opacity: 1, scale: 1 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.85, ease: EASE_OUT },
+  },
 };
 
 /* ------------------------------------------------------------------ */
 /*  Common viewport config                                             */
 /* ------------------------------------------------------------------ */
-export const viewportOnce = { once: true, margin: '2000px', amount: 0 } as const;
+export const viewportOnce = { once: true, amount: 0.15 } as const;
+export const viewportEarly = { once: true, amount: 0.05 } as const;
 
 /* ------------------------------------------------------------------ */
 /*  Hover presets                                                      */
 /* ------------------------------------------------------------------ */
 export const hoverLift = {
-  whileHover: { y: -8, transition: { duration: 0.3, ease: EASE_OUT } },
-  whileTap: { y: -4, scale: 0.99 },
+  whileHover: { y: -6, transition: { duration: 0.4, ease: EASE_OUT } },
+  whileTap: { y: -2, scale: 0.995 },
 };
 
 export const hoverScale = {
-  whileHover: { scale: 1.05, transition: { duration: 0.3, ease: EASE_OUT } },
-  whileTap: { scale: 0.97 },
+  whileHover: { scale: 1.03, transition: { duration: 0.4, ease: EASE_OUT } },
+  whileTap: { scale: 0.985 },
 };
 
 export const hoverTilt = {
-  whileHover: { rotate: -1.5, scale: 1.03, transition: { duration: 0.3, ease: EASE_OUT } },
-  whileTap: { scale: 0.98 },
+  whileHover: {
+    rotate: -1,
+    scale: 1.015,
+    transition: { duration: 0.4, ease: EASE_OUT },
+  },
+  whileTap: { scale: 0.99 },
 };
 
 export const hoverGlow = {
   whileHover: {
-    scale: 1.03,
-    boxShadow: '0 0 30px rgba(255, 215, 0, 0.45)',
-    transition: { duration: 0.35, ease: EASE_OUT },
+    scale: 1.02,
+    boxShadow: '0 0 40px rgba(255, 215, 0, 0.32)',
+    transition: { duration: 0.4, ease: EASE_OUT },
   },
-  whileTap: { scale: 0.98 },
+  whileTap: { scale: 0.99 },
 };

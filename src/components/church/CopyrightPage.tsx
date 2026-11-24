@@ -1,37 +1,36 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
 import {
-  Copyright, Shield, FileText, BookOpen, Image as ImageIcon,
-  Mail, AlertCircle, ArrowRight, Sparkles,
+  AlertCircle, BookOpen, FileText, Image as ImageIcon, Mail, Shield, Sparkles,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import {
-  fadeInUp, fadeInLeft, fadeInRight, scaleIn, blurIn,
-  staggerContainer, staggerItem, staggerItemScale, viewportOnce, EASE_OUT,
-} from '@/lib/animations';
+import { Action, Eyebrow, SectionHead } from '@/components/church/Editorial';
+import { EASE_OUT, staggerContainer, staggerItem, viewportOnce } from '@/lib/animations';
 
 const protections = [
   {
-    icon: <FileText className="w-6 h-6" />,
+    icon: FileText,
     title: 'Text & Written Content',
-    description: 'All written content on this website — including articles, sermons, devotionals, program descriptions, and ministry materials — is the intellectual property of Vision Life Ministries LTD and may not be reproduced without permission.',
+    description:
+      'All written content on this website — including articles, sermons, devotionals, program descriptions, and ministry materials — is the intellectual property of Vision Life Ministries LTD and may not be reproduced without permission.',
   },
   {
-    icon: <ImageIcon className="w-6 h-6" />,
+    icon: ImageIcon,
     title: 'Images & Media',
-    description: 'All photographs, illustrations, graphics, logos, and videos displayed on this site are protected by copyright law. They may not be downloaded, copied, or used for commercial purposes without prior written consent.',
+    description:
+      'All photographs, illustrations, graphics, logos, and videos displayed on this site are protected by copyright law. They may not be downloaded, copied, or used for commercial purposes without prior written consent.',
   },
   {
-    icon: <BookOpen className="w-6 h-6" />,
+    icon: BookOpen,
     title: 'Sermons & Teachings',
-    description: 'Sermon recordings, teachings, and related materials are the property of Vision Life Ministries LTD. They may be shared for personal, non-commercial use with proper attribution to the ministry.',
+    description:
+      'Sermon recordings, teachings, and related materials are the property of Vision Life Ministries LTD. They may be shared for personal, non-commercial use with proper attribution to the ministry.',
   },
   {
-    icon: <Sparkles className="w-6 h-6" />,
+    icon: Sparkles,
     title: 'Brand & Logo',
-    description: 'The Vision Life Ministries name, logo, and brand identity are trademarks of the ministry. Their use is reserved and may not be used by third parties without express written authorization.',
+    description:
+      'The Vision Life Ministries name, logo, and brand identity are trademarks of the ministry. Their use is reserved and may not be used by third parties without express written authorization.',
   },
 ];
 
@@ -44,230 +43,221 @@ const permissions = [
 ];
 
 export function CopyrightPage() {
-  const router = useRouter();
-
   return (
-    <div className="overflow-hidden">
+    <div className="min-w-0 overflow-hidden bg-cream">
       {/* Hero */}
-      <section className="relative bg-dark pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold rounded-full blur-3xl animate-breathe" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-burgundy rounded-full blur-3xl animate-breathe" style={{ animationDelay: '1.5s' }} />
+      <section className="relative overflow-hidden bg-dark pb-16 pt-40 md:pb-24">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.06]">
+          <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-gold blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-burgundy blur-3xl" />
         </div>
-        <div className="relative max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: EASE_OUT }}
-              className="mb-6"
-            >
-              <span className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase hover:bg-gold/20 transition-colors cursor-default">
-                Legal
-              </span>
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.9, delay: 0.4, ease: EASE_OUT }}
-              className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
-            >
-              <Copyright className="inline-block w-10 h-10 md:w-14 md:h-14 text-gold mr-3 -mt-2 group-icon" />
-              Copyright <span className="text-gold-gradient animate-gradient-shift">Notice</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: EASE_OUT }}
-              className="text-white/60 text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
-            >
-              Information about the ownership and permitted use of content on the Vision Life Ministries website.
-            </motion.p>
+        <div className="shell relative">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE_OUT }}
+          >
+            <Eyebrow tone="light">Legal</Eyebrow>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1, delay: 0.15, ease: EASE_OUT }}
+            className="t-h1 mt-6 max-w-4xl text-cream"
+          >
+            Copyright <span className="display-italic text-gold">notice</span>.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: EASE_OUT }}
+            className="body-lg mt-6 max-w-2xl text-cream/55"
+          >
+            Information about the ownership and permitted use of content on the Vision Life
+            Ministries website.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Overview */}
+      <section className="section-sm">
+        <div className="shell">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <Eyebrow>Overview</Eyebrow>
+              <p className="mt-5 font-display text-2xl leading-snug text-dark">
+                &copy; 2026 Vision Life Ministries LTD.
+              </p>
+              <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-dark/40">
+                All rights reserved
+              </p>
+            </div>
+            <div className="lg:col-span-8">
+              <p className="text-[15px] leading-relaxed text-dark/70">
+                All content published on this website — including but not limited to text, graphics,
+                logos, images, audio recordings, video recordings, sermons, and software — is the
+                property of Vision Life Ministries LTD unless otherwise stated, and is protected
+                under applicable Ugandan and international copyright laws.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="bg-cream py-20">
-        <div className="max-w-4xl mx-auto section-padding">
-          {/* Overview */}
-          <motion.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="mb-12"
-          >
-            <Card className="bg-white border-0 shadow-md rounded-sm overflow-hidden hover-lift cursor-default">
-              <div className="h-1.5 bg-linear-to-r from-gold to-burgundy" />
-              <CardContent className="p-8">
-                <h2 className="text-2xl font-bold text-dark mb-4">Copyright Overview</h2>
-                <p className="text-dark/70 text-sm md:text-base leading-relaxed mb-4">
-                  Copyright © 2026 Vision Life Ministries LTD. All rights reserved.
-                </p>
-                <p className="text-dark/70 text-sm md:text-base leading-relaxed">
-                  All content published on this website — including but not limited to text,
-                  graphics, logos, images, audio recordings, video recordings, sermons, and
-                  software — is the property of Vision Life Ministries LTD unless otherwise
-                  stated, and is protected under applicable Ugandan and international copyright
-                  laws.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+      {/* What is protected */}
+      <section className="section-sm bg-dark">
+        <div className="shell">
+          <SectionHead
+            tone="light"
+            eyebrow="Ownership"
+            title={
+              <>
+                What is <span className="display-italic text-gold">protected</span>.
+              </>
+            }
+          />
 
-          {/* What's Protected */}
           <motion.div
-            variants={fadeInUp}
+            variants={staggerContainer(0.08)}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            className="mb-12"
+            className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2"
           >
-            <h2 className="text-2xl font-bold text-dark mb-6 text-center">
-              What Is <span className="text-burgundy">Protected</span>
-            </h2>
-            <motion.div
-              variants={staggerContainer(0.1)}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
-              {protections.map((item) => (
-                <motion.div key={item.title} variants={staggerItem}>
-                  <Card className="group bg-white border border-dark/5 hover:border-gold/30 hover:shadow-lg transition-all duration-500 rounded-sm h-full hover-lift cursor-default">
-                    <CardContent className="p-6">
-                      <div className="w-12 h-12 rounded-lg bg-linear-to-br from-gold/10 to-burgundy/10 flex items-center justify-center text-gold mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                        <span className="group-icon inline-flex">{item.icon}</span>
-                      </div>
-                      <h3 className="text-dark font-bold text-base mb-2 group-hover:text-burgundy transition-colors">{item.title}</h3>
-                      <p className="text-dark/60 text-sm leading-relaxed">{item.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Permissions */}
-          <motion.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="mb-12"
-          >
-            <Card className="bg-dark border-gold/10 rounded-sm overflow-hidden hover-lift cursor-default">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                    <Shield className="w-5 h-5 group-icon" />
-                  </div>
-                  <h2 className="text-gold font-bold text-xl group-hover:text-gold-light transition-colors">Permitted Use</h2>
-                </div>
-                <motion.ul
-                  variants={staggerContainer(0.08)}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={viewportOnce}
-                  className="space-y-3"
+            {protections.map((item) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.title}
+                  variants={staggerItem}
+                  className="group bg-dark p-7 transition-colors duration-500 hover:bg-white/[0.03] sm:p-8"
                 >
-                  {permissions.map((perm, i) => (
-                    <motion.li
-                      key={i}
-                      variants={staggerItem}
-                      className="flex items-start gap-3 hover:translate-x-1 transition-transform duration-300 cursor-default"
+                  <Icon className="size-5 text-gold" />
+                  <h3 className="mt-6 font-display text-xl text-cream transition-colors duration-500 group-hover:text-gold">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-[13px] leading-relaxed text-cream/45">
+                    {item.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Permitted use */}
+      <section className="section-sm">
+        <div className="shell">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <div className="flex items-center gap-3">
+                <Shield className="size-5 text-gold-ink" />
+                <Eyebrow>Permitted Use</Eyebrow>
+              </div>
+              <h2 className="t-h3 mt-5 text-dark">
+                Share freely. <span className="display-italic">Credit faithfully.</span>
+              </h2>
+            </div>
+
+            <ul className="lg:col-span-8">
+              {permissions.map((permission, i) => {
+                const restricted = permission.includes('NOT');
+                return (
+                  <motion.li
+                    key={permission}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={viewportOnce}
+                    transition={{ duration: 0.5, delay: i * 0.05, ease: EASE_OUT }}
+                    className="flex items-start gap-4 border-b border-dark/12 py-5 first:border-t"
+                  >
+                    <span
+                      className={`mt-2 size-1.5 shrink-0 rounded-full ${
+                        restricted ? 'bg-burgundy' : 'bg-gold-dark'
+                      }`}
+                    />
+                    <p
+                      className={`text-[13.5px] leading-relaxed ${
+                        restricted ? 'font-medium text-burgundy-dark' : 'text-dark/65'
+                      }`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full mt-2 shrink-0 ${perm.includes('NOT') ? 'bg-burgundy' : 'bg-gold'}`} />
-                      <p className={`text-sm leading-relaxed ${perm.includes('NOT') ? 'text-burgundy-light/90 font-medium' : 'text-white/70'}`}>
-                        {perm}
-                      </p>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </CardContent>
-            </Card>
-          </motion.div>
+                      {permission}
+                    </p>
+                  </motion.li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-          {/* Request Permission */}
-          <motion.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="mb-12"
-          >
-            <Card className="group bg-white border-0 shadow-md rounded-sm overflow-hidden hover-lift cursor-default">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                    <AlertCircle className="w-5 h-5 group-icon" />
-                  </div>
-                  <h2 className="text-dark font-bold text-xl group-hover:text-burgundy transition-colors">Requesting Permission</h2>
-                </div>
-                <p className="text-dark/70 text-sm md:text-base leading-relaxed mb-4">
-                  For permission to use any of our content beyond the scope of the permitted uses
-                  outlined above — including commercial use, republishing, or large-scale distribution —
-                  please contact us directly using the details below:
+      {/* Permission request */}
+      <section className="pb-16">
+        <div className="shell">
+          <div className="grid gap-8 rounded-2xl bg-white p-7 shadow-[0_30px_80px_-60px_rgba(10,10,10,0.5)] sm:p-10 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <div className="flex items-center gap-3">
+                <AlertCircle className="size-5 text-burgundy" />
+                <p className="text-[9.5px] uppercase tracking-[0.22em] text-dark/40">
+                  Requesting Permission
                 </p>
-                <div className="bg-cream rounded-sm p-5 border border-dark/5 space-y-2">
-                  <p className="text-dark text-sm font-medium">Vision Life Ministries LTD</p>
-                  <p className="text-dark/60 text-sm flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-gold" />
-                    info@visionlifeministries.com
-                  </p>
-                  <p className="text-dark/60 text-sm flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-gold" />
-                    visionlifevisionlifeministries@gmail.com
-                  </p>
-                  <p className="text-dark/60 text-sm">Rakai District, Uganda, East Africa</p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+              <p className="mt-5 text-[14.5px] leading-relaxed text-dark/65">
+                For permission to use any of our content beyond the scope of the permitted uses
+                outlined above — including commercial use, republishing, or large-scale
+                distribution — please contact us directly using the details below:
+              </p>
+            </div>
 
-          {/* Disclaimer */}
-          <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="mb-12"
-          >
-            <Card className="bg-linear-to-br from-burgundy/5 to-gold/5 border border-gold/20 rounded-sm overflow-hidden hover-lift cursor-default">
-              <CardContent className="p-6">
-                <p className="text-dark/70 text-xs leading-relaxed italic">
-                  <strong className="not-italic text-burgundy">Disclaimer:</strong> The information
-                  on this website is provided by Vision Life Ministries LTD for general informational
-                  and ministry purposes. All information is provided in good faith; however, we make
-                  no representation or warranty of any kind regarding the accuracy, adequacy, validity,
-                  reliability, or completeness of any content on this site. Any reliance you place on
-                  such information is strictly at your own risk.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+            <div className="lg:col-span-5">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-dark/35">
+                Vision Life Ministries LTD
+              </p>
+              <div className="mt-4 space-y-2.5">
+                <a
+                  href="mailto:info@visionlifeministries.com"
+                  className="flex items-center gap-2.5 break-all text-[13px] text-dark/60 transition-colors hover:text-burgundy"
+                >
+                  <Mail className="size-4 shrink-0 text-gold-ink" />
+                  info@visionlifeministries.com
+                </a>
+                <a
+                  href="mailto:visionlifevisionlifeministries@gmail.com"
+                  className="flex items-center gap-2.5 break-all text-[13px] text-dark/60 transition-colors hover:text-burgundy"
+                >
+                  <Mail className="size-4 shrink-0 text-gold-ink" />
+                  visionlifevisionlifeministries@gmail.com
+                </a>
+                <p className="text-[13px] text-dark/50">Rakai District, Uganda, East Africa</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          {/* CTA */}
-          <motion.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="text-center"
-          >
-            <p className="text-dark/60 text-sm mb-4">Have questions about our copyright policy?</p>
-            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-block">
-              <button
-                onClick={() => { router.push('/contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="inline-flex items-center gap-2 bg-gold hover:bg-gold-dark text-dark font-bold px-7 py-3 text-sm tracking-wider uppercase rounded-sm cursor-pointer transition-colors btn-shine hover-arrow"
-              >
-                Contact Us
-                <ArrowRight className="w-4 h-4 hover-arrow-target" />
-              </button>
-            </motion.div>
-          </motion.div>
+      {/* Disclaimer + CTA */}
+      <section className="pb-24">
+        <div className="shell">
+          <div className="rounded-2xl border border-gold-dark/20 bg-gold/8 p-6 sm:p-8">
+            <p className="text-[12.5px] italic leading-relaxed text-dark/60">
+              <strong className="not-italic text-burgundy">Disclaimer:</strong> The information on
+              this website is provided by Vision Life Ministries LTD for general informational and
+              ministry purposes. All information is provided in good faith; however, we make no
+              representation or warranty of any kind regarding the accuracy, adequacy, validity,
+              reliability, or completeness of any content on this site. Any reliance you place on
+              such information is strictly at your own risk.
+            </p>
+          </div>
+
+          <div className="mt-10 flex flex-col items-start justify-between gap-5 border-t border-dark/12 pt-8 sm:flex-row sm:items-center">
+            <p className="text-[13px] text-dark/55">
+              Have questions about our copyright policy?
+            </p>
+            <Action href="/contact-us" variant="gold" icon="right">
+              Contact Us
+            </Action>
+          </div>
         </div>
       </section>
     </div>

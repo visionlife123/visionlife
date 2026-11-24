@@ -1,21 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/church/Navbar";
 import { Footer } from "@/components/church/Footer";
 import { GDPRConsentBanner } from "@/components/church/GDPRConsentBanner";
 import { WhatsAppChatbot } from "@/components/church/WhatsAppChatbot";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { SmoothScroll } from "@/components/church/SmoothScroll";
+import { MotionProvider } from "@/components/church/MotionProvider";
 
 const SITE_URL = "https://visionlifeministries.com";
 const SITE_NAME = "Vision Life Ministries";
@@ -73,10 +64,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/hero-worship.png",
+        url: "/images/community.png",
         width: 1200,
         height: 630,
-        alt: "Vision Life Ministries church worship service in Rakai, Uganda",
+        alt: "Vision Life Ministries church family in Rakai, Uganda",
       },
     ],
   },
@@ -85,7 +76,7 @@ export const metadata: Metadata = {
     title: "Vision Life Ministries | Church in Uganda, East Africa & Beyond",
     description:
       "A Spirit-filled Christian church in Rakai, Uganda reaching, restoring and equipping people with the Gospel of Christ across Africa and the world.",
-    images: ["/images/hero-worship.png"],
+    images: ["/images/community.png"],
   },
   robots: {
     index: true,
@@ -122,7 +113,6 @@ const jsonLd = {
       url: SITE_URL,
       logo: `${SITE_URL}/images/logo.png`,
       image: [
-        `${SITE_URL}/images/hero-worship.png`,
         `${SITE_URL}/images/church-building.png`,
         `${SITE_URL}/images/community.png`,
       ],
@@ -209,6 +199,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        />
         <script
           key="error-logger"
           dangerouslySetInnerHTML={{
@@ -249,18 +246,19 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-dark text-white`}
+        className="antialiased bg-dark text-cream font-sans"
         suppressHydrationWarning
       >
-        <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-1 min-w-0">
-            {children}
-          </main>
-          <Footer />
-          <GDPRConsentBanner />
-          <WhatsAppChatbot />
-        </div>
+        <MotionProvider>
+          <SmoothScroll />
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-1 min-w-0">{children}</main>
+            <Footer />
+            <GDPRConsentBanner />
+            <WhatsAppChatbot />
+          </div>
+        </MotionProvider>
         <Toaster />
       </body>
     </html>

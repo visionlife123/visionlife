@@ -1,8 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { EASE_OUT } from '@/lib/animations';
 
 interface Testimonial {
   quote: string;
@@ -20,9 +22,11 @@ interface AnimatedTestimonialsProps {
 export function AnimatedTestimonials({
   testimonials,
   autoplay = true,
-  interval = 5000,
+  interval = 8000,
 }: AnimatedTestimonialsProps) {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduce = useReducedMotion();
 
   const handleNext = useCallback(() => {
     setActive((prev) => (prev + 1) % testimonials.length);
@@ -33,101 +37,122 @@ export function AnimatedTestimonials({
   }, [testimonials.length]);
 
   useEffect(() => {
-    if (!autoplay) return;
+    if (!autoplay || paused || reduce) return;
     const timer = setInterval(handleNext, interval);
     return () => clearInterval(timer);
-  }, [autoplay, interval, handleNext]);
+  }, [autoplay, interval, paused, reduce, handleNext]);
 
-  const isActive = (index: number) => index === active;
+  const current = testimonials[active];
 
   return (
-    <div className="relative w-full">
-      <div className="relative mx-auto max-w-5xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          {/* Image Column */}
-          <div className="relative order-1 md:order-1">
-            <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.name}
-                  initial={false}
-                  animate={{
-                    opacity: isActive(index) ? 1 : 0,
-                    scale: isActive(index) ? 1 : 0.95,
-                    z: isActive(index) ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="absolute inset-0"
-                  style={{ pointerEvents: isActive(index) ? "auto" : "none" }}
-                >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
-                    <img
-                      src={testimonial.src}
-                      alt={testimonial.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark/40 via-transparent to-transparent" />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+    <div
+      className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Quote */}
+      <div className="order-2 lg:order-1 lg:col-span-7">
+        <Quote className="size-8 text-gold-ink/40" aria-hidden />
 
-            {/* Navigation arrows on image */}
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-              <button
-                onClick={handlePrev}
-                className="w-10 h-10 rounded-full bg-white/90 border border-gold/20 flex items-center justify-center text-dark hover:bg-gold hover:text-dark transition-all duration-300 shadow-lg cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="flex items-center gap-1.5 px-3">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActive(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      isActive(index)
-                        ? "bg-gold w-6"
-                        : "bg-dark/20 hover:bg-gold/40"
-                    }`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={handleNext}
-                className="w-10 h-10 rounded-full bg-white/90 border border-gold/20 flex items-center justify-center text-dark hover:bg-gold hover:text-dark transition-all duration-300 shadow-lg cursor-pointer"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+        <div className="relative mt-4 min-h-[15rem] sm:min-h-[13rem]">
+          <AnimatePresence mode="wait">
+            <motion.figure
+              key={active}
+              initial={{ opacity: 0, y: reduce ? 0 : 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: reduce ? 0 : -12 }}
+              transition={{ duration: 0.55, ease: EASE_OUT }}
+              aria-live="polite"
+            >
+              <blockquote className="t-quote text-balance text-dark">
+                &ldquo;{current.quote}&rdquo;
+              </blockquote>
+              <figcaption className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-1">
+                <span className="font-display text-xl text-dark">{current.name}</span>
+                <span className="hidden h-3 w-px bg-dark/20 sm:block" />
+                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-dark/45">
+                  {current.designation}
+                </span>
+              </figcaption>
+            </motion.figure>
+          </AnimatePresence>
+        </div>
+
+        {/* Controls */}
+        <div className="mt-8 flex items-center justify-between border-t border-dark/10 pt-6">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous testimony"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-dark/15 text-dark/60 transition-colors hover:border-dark hover:bg-dark hover:text-cream"
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next testimony"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-dark/15 text-dark/60 transition-colors hover:border-dark hover:bg-dark hover:text-cream"
+            >
+              <ChevronRight className="size-4" />
+            </button>
           </div>
 
-          {/* Quote Column */}
-          <div className="relative order-2 md:order-2 min-h-[280px] flex items-center">
+          <p className="font-display text-sm tracking-[0.12em] text-dark/45">
+            <span className="text-dark">0{active + 1}</span>
+            <span className="mx-1.5">/</span>
+            <span>0{testimonials.length}</span>
+          </p>
+        </div>
+      </div>
+
+      {/* Portrait + selectors */}
+      <div className="order-1 lg:order-2 lg:col-span-5">
+        <div className="relative mx-auto w-full max-w-sm">
+          <div className="absolute -inset-2 rounded-[1.6rem] border border-gold-ink/15" aria-hidden />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.35rem] bg-dark/5">
             <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="w-full"
-              >
-                <Quote className="w-10 h-10 text-gold/30 mb-4" />
-                <motion.blockquote className="text-dark text-lg md:text-xl font-serif leading-relaxed mb-6 italic">
-                  &ldquo;{testimonials[active].quote}&rdquo;
-                </motion.blockquote>
-                <motion.div>
-                  <p className="text-burgundy font-bold text-base">
-                    {testimonials[active].name}
-                  </p>
-                  <p className="text-dark/50 text-sm">
-                    {testimonials[active].designation}
-                  </p>
-                </motion.div>
-              </motion.div>
+              <motion.img
+                key={current.src}
+                src={current.src}
+                alt={`Portrait of ${current.name}`}
+                loading="lazy"
+                decoding="async"
+                initial={{ opacity: 0, scale: reduce ? 1 : 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, ease: EASE_OUT }}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
             </AnimatePresence>
+            <div className="absolute inset-0 bg-linear-to-t from-dark/35 via-transparent to-transparent" />
           </div>
+        </div>
+
+        <div className="mt-5 flex items-center justify-center gap-2.5">
+          {testimonials.map((testimonial, index) => (
+            <button
+              key={testimonial.name}
+              type="button"
+              onClick={() => setActive(index)}
+              aria-label={`Read the testimony of ${testimonial.name}`}
+              aria-current={index === active}
+              className={cn(
+                'relative h-11 w-11 overflow-hidden rounded-full border transition-all duration-400',
+                index === active
+                  ? 'scale-105 border-gold-ink/70'
+                  : 'border-transparent opacity-55 hover:opacity-90',
+              )}
+            >
+              <img
+                src={testimonial.src}
+                alt=""
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </button>
+          ))}
         </div>
       </div>
     </div>

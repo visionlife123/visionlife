@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Cookie, Shield, X, Check, ExternalLink } from 'lucide-react';
+import { ArrowUpRight, X } from 'lucide-react';
+import { EASE_OUT } from '@/lib/animations';
 
 const STORAGE_KEY = 'vlm-gdpr-consent';
 
@@ -56,66 +57,63 @@ export function GDPRConsentBanner() {
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 100 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="fixed bottom-0 left-0 right-0 z-[60] p-4 sm:p-6"
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ duration: 0.6, ease: EASE_OUT }}
+          className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-6"
+          role="region"
+          aria-label="Cookie and privacy notice"
         >
-          <div className="max-w-5xl mx-auto">
-            <div className="bg-dark border border-gold/30 rounded-sm shadow-2xl overflow-hidden">
-              <div className="h-0.5 bg-gradient-to-r from-gold via-burgundy to-gold" />
-              <div className="p-5 sm:p-6">
-                <div className="flex flex-col lg:flex-row items-start gap-5">
-                  {/* Icon */}
-                  <div className="hidden sm:flex shrink-0 w-12 h-12 rounded-full bg-gold/10 border border-gold/30 items-center justify-center">
-                    <Cookie className="w-6 h-6 text-gold" />
-                  </div>
+          <div className="pointer-events-auto mx-auto max-w-4xl overflow-hidden rounded-2xl border border-cream/12 bg-dark/95 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Shield className="w-4 h-4 text-gold sm:hidden" />
-                      <h3 className="text-gold font-bold text-sm tracking-wider uppercase">
-                        Cookie & Privacy Notice
-                      </h3>
-                    </div>
-                    <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
-                      We use cookies and similar technologies to enhance your browsing experience,
-                      analyze website traffic, and improve our services. By clicking &ldquo;Accept All&rdquo;,
-                      you consent to our use of cookies in accordance with our Privacy Policy and GDPR
-                      regulations. You may also choose to decline non-essential cookies.
-                    </p>
-                    <div className="flex flex-wrap items-center gap-3 mt-3">
-                      <button
-                        className="text-gold/70 hover:text-gold text-xs underline underline-offset-2 flex items-center gap-1 cursor-pointer"
-                        onClick={() => window.open('https://gdpr.eu/what-is-gdpr/', '_blank')}
-                      >
-                        Learn more about GDPR
-                        <ExternalLink className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto shrink-0">
-                    <Button
-                      onClick={decline}
-                      variant="outline"
-                      className="border-gold/30 text-white/70 hover:text-gold hover:bg-gold/5 hover:border-gold/50 text-xs tracking-wider uppercase rounded-sm px-5 py-2.5 h-auto"
-                    >
-                      <X className="w-3.5 h-3.5 mr-1.5" />
-                      Decline
-                    </Button>
-                    <Button
-                      onClick={accept}
-                      className="bg-gold hover:bg-gold-dark text-dark font-semibold text-xs tracking-wider uppercase rounded-sm px-5 py-2.5 h-auto"
-                    >
-                      <Check className="w-3.5 h-3.5 mr-1.5" />
-                      Accept All
-                    </Button>
-                  </div>
+            <div className="flex flex-col gap-5 p-5 sm:p-6 lg:flex-row lg:items-center lg:gap-8">
+              <div className="min-w-0 flex-1">
+                <p className="text-[9px] uppercase tracking-[0.26em] text-gold/80">Privacy</p>
+                <h2 className="mt-2 font-display text-2xl leading-tight text-cream sm:text-[26px]">
+                  Cookies &amp; your <span className="display-italic text-gold">experience</span>
+                </h2>
+                <p className="mt-2 max-w-xl text-[12.5px] leading-relaxed text-cream/55">
+                  We use cookies to enhance your browsing experience, understand site traffic and
+                  improve our services. Accepting consents to this use. You can also continue with
+                  essential cookies only.
+                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9.5px] uppercase tracking-[0.18em] text-cream/40">
+                  <Link
+                    href="/privacy"
+                    className="inline-flex items-center gap-1.5 transition-colors hover:text-gold"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => window.open('https://gdpr.eu/what-is-gdpr/', '_blank')}
+                    className="inline-flex cursor-pointer items-center gap-1.5 transition-colors hover:text-gold"
+                  >
+                    About GDPR
+                    <ArrowUpRight className="size-3" />
+                  </button>
                 </div>
+              </div>
+
+              <div className="flex shrink-0 flex-col gap-2 sm:flex-row lg:flex-col xl:flex-row">
+                <button
+                  type="button"
+                  onClick={decline}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-cream/25 px-5 py-3 text-[10px] uppercase tracking-[0.2em] text-cream/65 transition-all duration-400 hover:border-cream/60 hover:text-cream"
+                >
+                  <X className="size-3.5" />
+                  Essential only
+                </button>
+                <button
+                  type="button"
+                  onClick={accept}
+                  className="btn-shine group inline-flex items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-dark transition-colors duration-400 hover:bg-gold-light"
+                >
+                  <span className="relative z-[2]">Accept all</span>
+                  <ArrowUpRight className="relative z-[2] size-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </button>
               </div>
             </div>
           </div>

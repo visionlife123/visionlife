@@ -1,18 +1,13 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import {
-  Calendar, Clock, MapPin, Users, Star, ArrowRight,
-  Cross, Music, Heart, Globe, Phone
+  ArrowUpRight, Calendar, Clock, Cross, Globe, Heart, MapPin, Music, Star, Users,
 } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import {
-  fadeInUp, blurIn, scaleIn, staggerContainer, staggerItem, staggerItemScale,
-  viewportOnce, EASE_OUT,
-} from '@/lib/animations';
+import { Action, Eyebrow, ImageReveal, Index, Media, PageHero, SectionHead } from '@/components/church/Editorial';
+import { EASE_OUT, staggerContainer, staggerItem, viewportOnce } from '@/lib/animations';
 
 interface ChurchEvent {
   id: string;
@@ -26,14 +21,14 @@ interface ChurchEvent {
   featured: boolean;
 }
 
-const iconMap: Record<string, React.ReactNode> = {
-  Cross: <Cross className="w-6 h-6" />,
-  Users: <Users className="w-6 h-6" />,
-  Heart: <Heart className="w-6 h-6" />,
-  Star: <Star className="w-6 h-6" />,
-  Globe: <Globe className="w-6 h-6" />,
-  Music: <Music className="w-6 h-6" />,
-  Calendar: <Calendar className="w-6 h-6" />,
+const iconMap: Record<string, React.ElementType> = {
+  Cross,
+  Users,
+  Heart,
+  Star,
+  Globe,
+  Music,
+  Calendar,
 };
 
 const sortEvents = (list: ChurchEvent[]) => {
@@ -86,21 +81,15 @@ const fallbackEvents: ChurchEvent[] = [
 ];
 
 export function EventsPage() {
-  const router = useRouter();
   const [events, setEvents] = useState<ChurchEvent[]>(fallbackEvents);
   const [loading, setLoading] = useState(true);
-
-  const handleContactUs = () => {
-    router.push('/contact');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const fetchEvents = useCallback(async () => {
     try {
       const res = await fetch('/api/events');
       if (res.ok) {
         const data = await res.json();
-        if (data.length > 0) {
+        if (Array.isArray(data) && data.length > 0) {
           setEvents(data);
         }
       }
@@ -117,160 +106,228 @@ export function EventsPage() {
 
   const featuredEvents = sortEvents(events.filter((e) => e.featured));
   const orderedEvents = sortEvents(events);
+  const remainingEvents = orderedEvents.filter((event) => !featuredEvents.some((f) => f.id === event.id));
 
   return (
-    <div className="overflow-hidden">
-      {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/community.png)' }} />
-          <div className="absolute inset-0 bg-linear-to-b from-dark/80 via-dark/60 to-dark" />
-        </div>
-        <div className="relative z-10 text-center section-padding max-w-4xl mx-auto py-32">
-          <motion.span
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default"
-          >
-            Events
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6"
-          >
-            Upcoming <span className="text-gold-gradient animate-gradient-shift">Events</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-white/70 text-base md:text-lg max-w-2xl mx-auto"
-          >
-            Join us for powerful gatherings that transform lives and build community.
-          </motion.p>
-        </div>
-      </section>
+    <div className="min-w-0 overflow-hidden bg-cream">
+      <PageHero
+        image="https://res.cloudinary.com/dbembxeoi/image/upload/v1795527765/WhatsApp_Image_2026-11-17_at_3.20.01_AM_sitd3e.jpg"
+        imageClassName="object-[center_70%]"
+        alt="The Vision Life Ministries community gathered for a church event"
+        eyebrow="Events"
+        title={
+          <>
+            Upcoming <span className="display-italic text-gold">events</span>.
+          </>
+        }
+        description="Join us for powerful gatherings that transform lives and build community."
+        meta={
+          <div className="flex flex-wrap gap-x-10 gap-y-3 text-cream/50">
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.22em] text-cream/30">Gather</p>
+              <p className="mt-1.5 font-display text-lg text-cream">All are welcome</p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.22em] text-cream/30">Where</p>
+              <p className="mt-1.5 font-display text-lg text-cream">Rakai, Uganda</p>
+            </div>
+          </div>
+        }
+      />
 
-      {/* Featured Events */}
-      <section className="relative bg-cream py-24">
-        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding">
+      {/* ---------------------------------------------------------- */}
+      {/* Featured events                                            */}
+      {/* ---------------------------------------------------------- */}
+      <section className="section">
+        <div className="shell">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <SectionHead
+              eyebrow="Featured"
+              title={
+                <>
+                  Moments to <span className="display-italic text-burgundy">gather</span>.
+                </>
+              }
+              className="max-w-2xl"
+            />
+            <p className="shrink-0 text-[10px] uppercase tracking-[0.22em] text-dark/35">
+              {loading ? 'Updating…' : `${featuredEvents.length} featured`}
+            </p>
+          </div>
+
           <motion.div
-            variants={blurIn}
+            variants={staggerContainer(0.1)}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            className="text-center mb-16"
+            className="mt-12 grid gap-8 lg:grid-cols-3"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
-              Featured <span className="text-burgundy">Events</span>
-            </h2>
-          </motion.div>
-
-          <motion.div
-            variants={staggerContainer(0.15)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
-          >
-            {featuredEvents.map((event) => (
-              <motion.div key={event.id} variants={staggerItem}>
-                <Card className="group bg-white border-0 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-sm overflow-hidden h-full hover-lift hover-shimmer cursor-default">
-                  <div className="h-2 bg-linear-to-r from-gold to-burgundy animate-gradient-shift" />
-                  <CardContent className="p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-lg bg-linear-to-br from-gold to-gold-dark flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                        {iconMap[event.icon] || <Calendar className="w-6 h-6 group-icon" />}
-                      </div>
-                      <span className="px-3 py-1 bg-burgundy/10 text-burgundy text-[10px] font-bold tracking-wider uppercase rounded-sm hover:bg-burgundy/20 transition-colors cursor-default">
+            {featuredEvents.map((event, i) => {
+              const Icon = iconMap[event.icon] ?? Calendar;
+              const images = [
+                '/images/community.png',
+                '/images/bible-study.png',
+                '/images/youth-ministry.png',
+              ];
+              return (
+                <motion.article
+                  key={event.id}
+                  variants={staggerItem}
+                  className="group flex flex-col"
+                >
+                  <Link href="/contact-us" className="block">
+                    <div className="relative overflow-hidden rounded-[1.15rem]">
+                      <Media
+                        src={images[i % images.length]}
+                        alt={`${event.title} at Vision Life Ministries`}
+                        className="aspect-[4/3]"
+                      />
+                      <span className="absolute left-4 top-4 rounded-full bg-dark/70 px-3 py-1.5 text-[9px] uppercase tracking-[0.18em] text-cream backdrop-blur-sm">
                         {event.category}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-dark mb-3 group-hover:text-burgundy transition-colors">{event.title}</h3>
-                    <p className="text-dark/60 text-sm leading-relaxed mb-4">{event.description}</p>
-                    <div className="space-y-2 mb-6">
-                      <div className="flex items-center gap-2 text-xs text-dark/50">
-                        <Calendar className="w-3.5 h-3.5 text-gold-dark group-hover:scale-110 transition-transform duration-500" />
+
+                    <div className="mt-5 flex items-baseline justify-between gap-4">
+                      <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-gold-ink">
+                        <Calendar className="size-3.5" />
                         {event.date}
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-dark/50">
-                        <Clock className="w-3.5 h-3.5 text-gold-dark group-hover:scale-110 transition-transform duration-500" />
+                      </p>
+                      <Index>0{i + 1}</Index>
+                    </div>
+
+                    <h3 className="mt-3 font-display text-[1.6rem] leading-tight text-dark transition-colors duration-500 group-hover:text-burgundy">
+                      {event.title}
+                    </h3>
+                    <p className="mt-3 text-[13px] leading-relaxed text-dark/55">
+                      {event.description}
+                    </p>
+
+                    <div className="mt-5 space-y-2 border-t border-dark/10 pt-4 text-[11px] text-dark/45">
+                      <p className="flex items-center gap-2">
+                        <Clock className="size-3.5 text-gold-ink/60" />
                         {event.time}
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-dark/50">
-                        <MapPin className="w-3.5 h-3.5 text-gold-dark group-hover:scale-110 transition-transform duration-500" />
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <MapPin className="size-3.5 text-gold-ink/60" />
                         {event.location}
-                      </div>
+                      </p>
                     </div>
-                    <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-block hover-arrow">
-                      <Button
-                        onClick={handleContactUs}
-                        className="bg-gold hover:bg-gold-dark text-dark font-semibold text-xs tracking-wider uppercase rounded-sm btn-shine"
-                      >
-                        <Phone className="w-3 h-3 mr-1" />
-                        Contact Us <ArrowRight className="w-3 h-3 ml-1 hover-arrow-target" />
-                      </Button>
-                    </motion.div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                  </Link>
+                </motion.article>
+              );
+            })}
           </motion.div>
+        </div>
+      </section>
 
-          {/* All Events */}
-          <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="mb-12"
-          >
-            <h3 className="text-2xl font-bold text-dark mb-8 text-center">
-              All Upcoming Events
-            </h3>
-          </motion.div>
+      {/* ---------------------------------------------------------- */}
+      {/* All events                                                 */}
+      {/* ---------------------------------------------------------- */}
+      <section className="section bg-dark">
+        <div className="shell">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <div className="lg:sticky lg:top-32">
+                <Eyebrow tone="light">Calendar</Eyebrow>
+                <h2 className="t-h2 mt-5 text-cream">
+                  All upcoming <span className="display-italic text-gold">events</span>.
+                </h2>
+                <p className="mt-6 max-w-sm text-[14px] leading-relaxed text-cream/50">
+                  From weekly gatherings to community outreach, there is always a way to be part of
+                  what God is doing.
+                </p>
+                <div className="mt-9">
+                  <Action href="/contact-us" variant="cream">
+                    Ask About an Event
+                  </Action>
+                </div>
+              </div>
+            </div>
 
-          <motion.div
-            variants={staggerContainer(0.08)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="space-y-4 max-w-3xl mx-auto"
-          >
-            {orderedEvents.map((event) => (
-              <motion.div key={event.id} variants={staggerItem}>
-                <Card className="group bg-white hover:shadow-lg border-dark/5 hover:border-gold/30 transition-all duration-500 rounded-sm hover-lift cursor-default">
-                  <CardContent className="p-5 flex items-center gap-4">
-                    <div className="w-12 h-12 shrink-0 rounded-lg bg-linear-to-br from-gold/10 to-burgundy/10 flex items-center justify-center text-burgundy group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 group-hover:from-gold/20 group-hover:to-burgundy/20">
-                      {iconMap[event.icon] || <Calendar className="w-6 h-6 group-icon" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="text-dark font-bold text-sm truncate group-hover:text-burgundy transition-colors">{event.title}</h4>
-                        <span className="px-2 py-0.5 bg-burgundy/5 text-burgundy text-[10px] font-medium tracking-wider uppercase rounded-sm shrink-0 hover:bg-burgundy/20 transition-colors cursor-default">
-                          {event.category}
-                        </span>
+            <div className="lg:col-span-8">
+              <div className="border-t border-white/10">
+                {(remainingEvents.length > 0 ? remainingEvents : orderedEvents).map((event, i) => {
+                  const Icon = iconMap[event.icon] ?? Calendar;
+                  return (
+                    <motion.div
+                      key={event.id}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={viewportOnce}
+                      transition={{ duration: 0.55, delay: (i % 4) * 0.05, ease: EASE_OUT }}
+                      className="group grid grid-cols-12 gap-4 border-b border-white/10 py-6 transition-colors duration-400 hover:bg-white/[0.03] sm:px-3"
+                    >
+                      <div className="col-span-2 flex items-start sm:col-span-1">
+                        <Icon className="size-5 text-gold/70" />
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 text-[10px] text-dark/40">
-                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{event.date}</span>
-                        <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{event.time}</span>
-                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{event.location}</span>
+                      <div className="col-span-10 sm:col-span-9">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <h3 className="font-display text-[1.35rem] leading-tight text-cream transition-colors duration-400 group-hover:text-gold">
+                            {event.title}
+                          </h3>
+                          <span className="rounded-full border border-gold/25 px-2.5 py-0.5 text-[8.5px] uppercase tracking-[0.16em] text-gold/70">
+                            {event.category}
+                          </span>
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-[10.5px] text-cream/35">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar className="size-3" />
+                            {event.date}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Clock className="size-3" />
+                            {event.time}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <MapPin className="size-3" />
+                            {event.location}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
-                      <Button
-                        variant="outline"
-                        onClick={handleContactUs}
-                        className="border-gold/30 text-gold-dark hover:bg-gold/10 text-xs rounded-sm shrink-0 hidden sm:flex btn-shine"
-                      >
-                        Contact Us
-                      </Button>
+                      <div className="col-span-12 flex justify-end sm:col-span-2">
+                        <Link
+                          href="/contact-us"
+                          aria-label={`Contact us about ${event.title}`}
+                          className="flex size-9 items-center justify-center rounded-full border border-white/15 text-cream/50 transition-colors duration-400 hover:border-gold hover:bg-gold hover:text-dark"
+                        >
+                          <ArrowUpRight className="size-4" />
+                        </Link>
+                      </div>
                     </motion.div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------- */}
+      {/* Invitation                                                 */}
+      {/* ---------------------------------------------------------- */}
+      <section className="section-sm">
+        <div className="shell">
+          <ImageReveal className="relative overflow-hidden rounded-[1.5rem] bg-cream">
+            <Media
+              src="/images/cross-sunrise.png"
+              alt="A cross silhouetted against the sunrise"
+              className="aspect-[16/9] md:aspect-[21/9]"
+              overlay
+            />
+            <div className="absolute inset-0 flex flex-col items-start justify-end p-7 sm:p-10">
+              <p className="text-[9.5px] uppercase tracking-[0.22em] text-gold">
+                Nothing compares
+              </p>
+              <h2 className="t-h3 mt-3 max-w-xl text-cream">
+                Photos capture a moment. Come and experience God with us.
+              </h2>
+              <div className="mt-5">
+                <Action href="/contact-us" variant="gold" icon="right">
+                  Plan Your Visit
+                </Action>
+              </div>
+            </div>
+          </ImageReveal>
         </div>
       </section>
     </div>

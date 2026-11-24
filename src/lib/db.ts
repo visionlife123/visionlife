@@ -56,7 +56,7 @@ const initialSermons = [
     category: 'Healing Service',
     description: "Vision Life Ministries is a restoration ministry designed to heal the brokenhearted. This sermon explores God's heart for restoration and wholeness.",
     scripture: 'Isaiah 61:1-3',
-    imageUrl: '/images/hero-worship.png',
+    imageUrl: '/images/sermon.png',
     featured: false,
     createdAt: new Date('2024-12-29T00:00:00.000Z').toISOString(),
     updatedAt: new Date('2024-12-29T00:00:00.000Z').toISOString()

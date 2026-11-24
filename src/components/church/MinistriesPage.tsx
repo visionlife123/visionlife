@@ -1,206 +1,197 @@
 'use client';
 
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
 import {
-  Music, BookOpen, Heart, Users, Baby, Globe,
-  HandHeart, Shield, Sparkles, Star, Cross
+  Baby, BookOpen, Cross, Globe, HandHeart, Heart, Music, Shield, Sparkles, Users,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Action, Eyebrow, PageHero } from '@/components/church/Editorial';
 import {
-  scaleIn, blurIn,
-  staggerContainer, staggerItem, viewportOnce, EASE_OUT,
+  EASE_OUT, staggerContainer, staggerItem, viewportOnce,
 } from '@/lib/animations';
 
-interface Ministry {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  color: string;
-  meetingTime?: string;
-}
-
-const ministries: Ministry[] = [
+const ministries = [
   {
-    icon: <Music className="w-8 h-8 group-icon" />,
+    icon: Music,
     title: 'Worship & Arts Ministry',
-    description: 'Leading the congregation into God\'s presence through Spirit-filled worship, music, dance, and creative arts. Our worship team is dedicated to creating an atmosphere where heaven meets earth.',
-    color: 'from-gold to-gold-dark',
+    description:
+      "Leading the congregation into God's presence through Spirit-filled worship, music, dance, and creative arts. Our worship team is dedicated to creating an atmosphere where heaven meets earth.",
   },
   {
-    icon: <Users className="w-8 h-8 group-icon" />,
+    icon: Users,
     title: 'Youth Ministry',
-    description: 'Empowering the next generation to discover their identity in Christ, develop their gifts, and impact their world. Through dynamic services, mentorship, and outreach, we raise young Kingdom leaders.',
-    color: 'from-burgundy to-burgundy-dark',
+    description:
+      'Empowering the next generation to discover their identity in Christ, develop their gifts, and impact their world. Through dynamic services, mentorship, and outreach, we raise young Kingdom leaders.',
   },
   {
-    icon: <Baby className="w-8 h-8 group-icon" />,
-    title: 'Children\'s Ministry',
-    description: 'Nurturing children in the love and knowledge of God through age-appropriate Bible teaching, worship, and activities. We believe in planting seeds of faith that will last a lifetime.',
-    color: 'from-gold-dark to-gold',
+    icon: Baby,
+    title: "Children's Ministry",
+    description:
+      'Nurturing children in the love and knowledge of God through age-appropriate Bible teaching, worship, and activities. We believe in planting seeds of faith that will last a lifetime.',
   },
   {
-    icon: <Heart className="w-8 h-8 group-icon" />,
+    icon: Heart,
     title: 'Healing & Deliverance Ministry',
-    description: 'A restoration ministry designed to heal the brokenhearted and set the captives free. Through prayer, counseling, and the power of the Holy Spirit, we minister to the whole person — spirit, soul, and body.',
-    color: 'from-burgundy-dark to-burgundy',
+    description:
+      'A restoration ministry designed to heal the brokenhearted and set the captives free. Through prayer, counseling, and the power of the Holy Spirit, we minister to the whole person — spirit, soul, and body.',
   },
   {
-    icon: <BookOpen className="w-8 h-8 group-icon" />,
+    icon: BookOpen,
     title: 'Bible Study & Discipleship',
-    description: 'Equipping believers with deep understanding of Scripture through structured study programs. From new believers\' classes to advanced theological training, we build a strong biblical foundation.',
-    color: 'from-gold to-gold-dark',
+    description:
+      "Equipping believers with deep understanding of Scripture through structured study programs. From new believers' classes to advanced theological training, we build a strong biblical foundation.",
   },
   {
-    icon: <Shield className="w-8 h-8 group-icon" />,
-    title: 'Men\'s Ministry',
-    description: 'Building men of integrity, purpose, and spiritual strength. We equip men to be godly leaders in their homes, workplaces, and communities through fellowship, Bible study, and accountability.',
-    color: 'from-burgundy to-burgundy-dark',
+    icon: Shield,
+    title: "Men's Ministry",
+    description:
+      'Building men of integrity, purpose, and spiritual strength. We equip men to be godly leaders in their homes, workplaces, and communities through fellowship, Bible study, and accountability.',
   },
   {
-    icon: <Sparkles className="w-8 h-8 group-icon" />,
-    title: 'Women\'s Ministry',
-    description: 'Empowering women to embrace their God-given identity and purpose. Through fellowship, teaching, and mentoring, we help women grow in faith and impact their spheres of influence.',
-    color: 'from-gold-dark to-gold',
+    icon: Sparkles,
+    title: "Women's Ministry",
+    description:
+      'Empowering women to embrace their God-given identity and purpose. Through fellowship, teaching, and mentoring, we help women grow in faith and impact their spheres of influence.',
   },
   {
-    icon: <Globe className="w-8 h-8 group-icon" />,
+    icon: Globe,
     title: 'Missions & Outreach',
-    description: 'Taking the Gospel beyond our walls to communities, villages, and nations. We establish churches, schools, and development projects in some of the remotest areas of Uganda and beyond.',
-    color: 'from-burgundy-dark to-burgundy',
+    description:
+      'Taking the Gospel beyond our walls to communities, villages, and nations. We establish churches, schools, and development projects in some of the remotest areas of Uganda and beyond.',
   },
   {
-    icon: <HandHeart className="w-8 h-8 group-icon" />,
+    icon: HandHeart,
     title: 'Compassion & Care Ministry',
-    description: 'Demonstrating God\'s love through practical acts of compassion. We support vulnerable groups including people living with HIV/AIDS, orphans, widows, and those in crisis situations.',
-    color: 'from-gold to-gold-dark',
+    description:
+      "Demonstrating God's love through practical acts of compassion. We support vulnerable groups including people living with HIV/AIDS, orphans, widows, and those in crisis situations.",
   },
 ];
 
 export function MinistriesPage() {
-  const router = useRouter();
-
   return (
-    <div className="overflow-hidden">
-      {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/youth-ministry.png)' }} />
-          <div className="absolute inset-0 bg-linear-to-b from-dark/80 via-dark/60 to-dark" />
-        </div>
-        <div className="relative z-10 text-center section-padding max-w-4xl mx-auto py-32">
-          <motion.span
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-xs font-medium tracking-widest uppercase mb-6 hover:bg-gold/20 transition-colors cursor-default"
+    <div className="min-w-0 overflow-hidden bg-cream">
+      <PageHero
+        image="https://res.cloudinary.com/dbembxeoi/image/upload/v1795527764/WhatsApp_Image_2026-11-17_at_3.06.33_AM_ciuynr.jpg"
+        imageClassName="object-[center_70%]"
+        alt="Young people worshipping together at Vision Life Ministries"
+        eyebrow="Our Ministries"
+        title={
+          <>
+            Serve in <span className="display-italic text-gold">ministry</span>.
+          </>
+        }
+        description="Every believer is called to serve. Discover your place in the body of Christ and make an eternal impact through our various ministries."
+        meta={
+          <div className="flex flex-wrap gap-x-10 gap-y-3 text-cream/50">
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.22em] text-cream/30">Ministries</p>
+              <p className="mt-1.5 font-display text-lg text-cream">Nine expressions</p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.22em] text-cream/30">Calling</p>
+              <p className="mt-1.5 font-display text-lg text-cream">Every believer</p>
+            </div>
+          </div>
+        }
+      />
+
+      {/* ---------------------------------------------------------- */}
+      {/* Ministries grid                                            */}
+      {/* ---------------------------------------------------------- */}
+      <section className="section">
+        <div className="shell">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl">
+              <Eyebrow>Explore</Eyebrow>
+              <h2 className="t-h2 mt-5 text-dark">
+                Explore our <span className="display-italic text-burgundy">ministries</span>.
+              </h2>
+              <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-dark/55">
+                Each ministry is designed to help you grow, serve, and make a difference. Find where
+                God is calling you to serve.
+              </p>
+            </div>
+            <p className="shrink-0 text-[10px] uppercase tracking-[0.22em] text-dark/35">
+              Nine ways to belong
+            </p>
+          </div>
+
+          <motion.div
+            variants={staggerContainer(0.07)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-dark/12 md:grid-cols-2 lg:grid-cols-3"
           >
-            Our Ministries
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6"
-          >
-            Serve in <span className="text-gold-gradient animate-gradient-shift">Ministry</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-white/70 text-base md:text-lg max-w-2xl mx-auto"
-          >
-            Every believer is called to serve. Discover your place in the body of Christ and make
-            an eternal impact through our various ministries.
-          </motion.p>
+            {ministries.map((ministry, i) => {
+              const Icon = ministry.icon;
+              return (
+                <motion.article
+                  key={ministry.title}
+                  variants={staggerItem}
+                  className="group relative flex flex-col bg-cream p-7 transition-colors duration-500 hover:bg-white sm:p-8"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="flex size-11 items-center justify-center rounded-full border border-dark/10 text-dark/40 transition-all duration-500 group-hover:border-gold group-hover:bg-gold group-hover:text-dark">
+                      <Icon className="size-5" />
+                    </span>
+                    <span className="font-display text-xs tracking-[0.18em] text-dark/25">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-7 font-display text-[1.5rem] leading-tight text-dark transition-colors duration-500 group-hover:text-burgundy">
+                    {ministry.title}
+                  </h3>
+                  <p className="mt-3 flex-1 text-[13px] leading-relaxed text-dark/55">
+                    {ministry.description}
+                  </p>
+
+                  <span className="mt-6 h-px w-full bg-dark/8">
+                    <span className="block h-px w-0 bg-gold-dark transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
+                  </span>
+                </motion.article>
+              );
+            })}
+          </motion.div>
         </div>
       </section>
 
-      {/* Ministries Grid */}
-      <section className="relative bg-cream py-24 overflow-hidden">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full blur-3xl animate-breathe" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-burgundy/5 rounded-full blur-3xl animate-breathe" style={{ animationDelay: '1.5s' }} />
-
-        <div className="max-w-7xl 2xl:max-w-9xl mx-auto section-padding relative">
-          <motion.div
-            variants={blurIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="text-center mb-16"
-          >
-            <span className="inline-block px-4 py-1.5 bg-burgundy/10 border border-burgundy/20 rounded-full text-burgundy text-xs font-medium tracking-widest uppercase mb-6 hover:bg-burgundy/20 transition-colors cursor-default">
-              Explore
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-dark mb-4">
-              Explore Our <span className="text-burgundy">Ministries</span>
-            </h2>
-            <p className="text-dark/60 text-base max-w-2xl mx-auto">
-              Each ministry is designed to help you grow, serve, and make a difference. Find where
-              God is calling you to serve.
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={staggerContainer(0.08)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {ministries.map((ministry) => (
-              <motion.div key={ministry.title} variants={staggerItem}>
-                <Card className="group bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-500 rounded-sm h-full overflow-hidden hover-lift hover-shimmer cursor-default">
-                  <div className={`h-1.5 bg-linear-to-r ${ministry.color}`} />
-                  <CardContent className="p-6">
-                    <div className={`w-14 h-14 rounded-lg bg-linear-to-br ${ministry.color} flex items-center justify-center text-white shadow-lg mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500`}>
-                      {ministry.icon}
-                    </div>
-                    <h3 className="text-lg font-bold text-dark mb-2 group-hover:text-burgundy transition-colors">{ministry.title}</h3>
-                    <p className="text-dark/60 text-sm leading-relaxed mb-4">{ministry.description}</p>
-                    {ministry.meetingTime && (
-                      <div className="flex items-center gap-2 text-xs text-gold-dark bg-gold/5 px-3 py-2 rounded-sm group-hover:bg-gold/10 transition-colors">
-                        <Star className="w-3 h-3 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-500" />
-                        {ministry.meetingTime}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+      {/* ---------------------------------------------------------- */}
+      {/* Called to serve                                            */}
+      {/* ---------------------------------------------------------- */}
+      <section className="relative isolate overflow-hidden bg-dark py-24 md:py-32">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07]">
+          <div className="absolute left-1/3 top-0 h-[26rem] w-[26rem] rounded-full bg-gold blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 h-[24rem] w-[24rem] rounded-full bg-burgundy blur-3xl" />
         </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-dark" />
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold rounded-full blur-3xl animate-breathe" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-burgundy rounded-full blur-3xl animate-breathe" style={{ animationDelay: '1.5s' }} />
-        </div>
-        <div className="relative max-w-4xl mx-auto section-padding text-center">
+        <div className="shell-narrow relative text-center">
           <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={viewportOnce}
+            transition={{ duration: 0.9, ease: EASE_OUT }}
           >
-            <Cross className="w-12 h-12 text-gold mx-auto mb-6 group-icon-pulse" />
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Called to <span className="text-gold-gradient animate-gradient-shift">Serve</span>?
-            </h2>
-            <p className="text-white/60 text-base max-w-xl mx-auto mb-8">
-              God has gifted every believer with unique talents and abilities for the advancement
-              of His Kingdom. Discover your ministry and step into your calling today.
+            <Cross className="mx-auto size-8 text-gold" />
+            <p className="eyebrow eyebrow-center mt-7 justify-center text-cream/50">
+              Called to Serve
             </p>
-            <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-block">
-              <button
-                onClick={() => { router.push('/contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="bg-gold hover:bg-gold-dark text-dark font-bold px-8 py-4 text-sm tracking-wider uppercase rounded-sm cursor-pointer transition-colors btn-shine"
-              >
+            <h2 className="t-h1 mt-6 text-cream">
+              God has gifted you <br />
+              <span className="display-italic text-gold">for a purpose</span>.
+            </h2>
+            <p className="body-lg mt-6 text-cream/55">
+              God has gifted every believer with unique talents and abilities for the advancement of
+              His Kingdom. Discover your ministry and step into your calling today.
+            </p>
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
+              <Action href="/contact-us" variant="gold">
                 Get Involved Today
-              </button>
-            </motion.div>
+              </Action>
+              <Action href="/programs" variant="outlineLight" icon="none">
+                See Our Programs
+              </Action>
+            </div>
           </motion.div>
         </div>
       </section>

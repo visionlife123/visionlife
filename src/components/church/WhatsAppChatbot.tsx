@@ -34,76 +34,71 @@ export function WhatsAppChatbot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[70] flex flex-col items-end gap-3">
+    <div className="fixed bottom-5 right-5 z-[70] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
       {/* Chat Panel */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="w-80 sm:w-96 bg-white rounded-lg shadow-2xl overflow-hidden border border-dark/10 origin-bottom-right"
+            exit={{ opacity: 0, scale: 0.92, y: 16 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="w-[19rem] origin-bottom-right overflow-hidden rounded-2xl border border-dark/10 bg-cream shadow-[0_30px_80px_-35px_rgba(10,10,10,0.55)] sm:w-96"
           >
             {/* Header */}
-            <div className="bg-[#FFD700] p-4 flex items-center gap-3">
+            <div className="flex items-center gap-3 bg-dark p-4">
               <button
                 onClick={() => openWhatsApp()}
-                className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors cursor-pointer"
+                className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-gold/15 transition-colors hover:bg-gold/30"
+                aria-label="Open WhatsApp"
               >
-                <WhatsAppIcon className="w-6 h-6 text-dark" />
+                <WhatsAppIcon className="size-5 text-gold" />
               </button>
               <div className="flex-1 cursor-pointer" onClick={() => openWhatsApp()}>
-                <p className="text-dark font-bold text-sm">Vision Life Ministries</p>
-                <p className="text-dark/80 text-xs flex items-center gap-1.5">
-                  <span className="w-2 h-2 bg-dark rounded-full animate-pulse" />
-                  Online now
+                <p className="font-display text-lg leading-tight text-cream">
+                  Vision Life Ministries
+                </p>
+                <p className="mt-0.5 flex items-center gap-1.5 text-[9px] uppercase tracking-[0.18em] text-cream/45">
+                  <span className="size-1.5 rounded-full bg-gold" />
+                  Online on WhatsApp
                 </p>
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-full hover:bg-dark/10 flex items-center justify-center transition-colors cursor-pointer"
+                className="flex size-8 cursor-pointer items-center justify-center rounded-full text-cream/50 transition-colors hover:bg-cream/10 hover:text-cream"
                 aria-label="Close chat"
               >
-                <X className="w-4 h-4 text-dark" />
+                <X className="size-4" />
               </button>
             </div>
 
             {/* Body */}
-            <div
-              className="p-4 h-64 overflow-y-auto flex flex-col gap-3"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e5e5e5' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                backgroundColor: '#ECE5DD',
-              }}
-            >
+            <div className="flex h-64 flex-col gap-3 overflow-y-auto bg-cream p-4">
               {/* Incoming message */}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="bg-white rounded-lg rounded-tl-none p-3 shadow-sm max-w-[85%] self-start"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.4 }}
+                className="max-w-[88%] self-start rounded-xl rounded-tl-sm border border-dark/8 bg-white p-3 shadow-sm"
               >
-                <p className="text-dark text-sm leading-relaxed">
+                <p className="text-[13px] leading-relaxed text-dark/75">
                   Hello and welcome to Vision Life Ministries! 🙏
                 </p>
-                <p className="text-dark text-sm leading-relaxed mt-2">
+                <p className="mt-2 text-[13px] leading-relaxed text-dark/75">
                   How can we help you today? Send us a message and we will respond on WhatsApp.
                 </p>
-                <p className="text-dark/40 text-[10px] mt-1 text-right">Just now</p>
+                <p className="mt-1.5 text-right text-[9px] uppercase tracking-[0.16em] text-dark/30">
+                  Just now
+                </p>
               </motion.div>
 
               {/* Quick replies */}
-              <div className="flex flex-wrap gap-2 mt-1">
-                {[
-                  'Prayer Request',
-                  'Service Times',
-                  'I want to visit',
-                ].map((quick) => (
+              <div className="mt-1 flex flex-wrap gap-2">
+                {['Prayer Request', 'Service Times', 'I want to visit'].map((quick) => (
                   <button
                     key={quick}
                     onClick={() => openWhatsApp(quick)}
-                    className="bg-white/90 hover:bg-white text-dark text-xs px-3 py-1.5 rounded-full shadow-sm transition-colors cursor-pointer"
+                    className="cursor-pointer rounded-full border border-dark/15 px-3 py-1.5 text-[9.5px] uppercase tracking-[0.14em] text-dark/60 transition-colors hover:border-dark hover:bg-dark hover:text-cream"
                   >
                     {quick}
                   </button>
@@ -112,27 +107,27 @@ export function WhatsAppChatbot() {
             </div>
 
             {/* Input */}
-            <div className="bg-white p-3 border-t border-dark/5 flex items-center gap-2">
+            <div className="flex items-center gap-2 border-t border-dark/10 bg-cream p-3">
               <input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type a message..."
-                className="flex-1 bg-dark/5 border border-dark/10 rounded-full px-4 py-2 text-sm text-dark placeholder:text-dark/40 focus:outline-none focus:border-[#128C7E] transition-colors"
+                placeholder="Type a message…"
+                className="flex-1 rounded-full border border-dark/12 bg-white px-4 py-2.5 text-[13px] text-dark placeholder:text-dark/35 focus:border-gold focus:outline-none"
               />
               <button
                 onClick={handleSend}
-                className="w-9 h-9 shrink-0 rounded-full bg-[#128C7E] hover:bg-[#075E54] flex items-center justify-center transition-colors cursor-pointer"
+                className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-dark text-cream transition-colors hover:bg-burgundy"
                 aria-label="Send message"
               >
-                <Send className="w-4 h-4 text-white" />
+                <Send className="size-4" />
               </button>
             </div>
 
             {/* Footer */}
-            <div className="bg-dark/5 px-4 py-2 text-center">
-              <p className="text-dark/40 text-[10px]">
-                Powered by WhatsApp • {WHATSAPP_DISPLAY}
+            <div className="border-t border-dark/8 px-4 py-2 text-center">
+              <p className="text-[9px] uppercase tracking-[0.16em] text-dark/35">
+                WhatsApp · {WHATSAPP_DISPLAY}
               </p>
             </div>
           </motion.div>
@@ -145,7 +140,7 @@ export function WhatsAppChatbot() {
         {!open && (
           <>
             <motion.span
-              className="absolute inset-0 rounded-full bg-[#FFD700]"
+              className="absolute inset-0 rounded-full bg-gold"
               animate={{
                 scale: [1, 1.8],
                 opacity: [0.4, 0],
@@ -157,7 +152,7 @@ export function WhatsAppChatbot() {
               }}
             />
             <motion.span
-              className="absolute inset-0 rounded-full bg-[#FFD700]"
+              className="absolute inset-0 rounded-full bg-gold"
               animate={{
                 scale: [1, 1.8],
                 opacity: [0.25, 0],
@@ -175,24 +170,9 @@ export function WhatsAppChatbot() {
         {/* Main Button */}
         <motion.button
           onClick={() => setOpen(!open)}
-          animate={!open ? {
-            scale: [1, 1.06, 1],
-            rotate: [0, 4, -4, 4, 0]
-          } : {
-            scale: 1,
-            rotate: 0,
-          }}
-          transition={!open ? {
-            duration: 1.2,
-            repeat: Infinity,
-            ease: "easeInOut",
-            repeatDelay: 8
-          } : {
-            duration: 0.2
-          }}
-          whileHover={{ scale: 1.3, rotate: 0 }}
-          whileTap={{ scale: 0.9 }}
-          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#FFD700] hover:bg-[#FFE44D] shadow-2xl flex items-center justify-center cursor-pointer z-10 ring-4 ring-dark/10"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.94 }}
+          className="relative z-10 flex size-14 cursor-pointer items-center justify-center rounded-full bg-gold shadow-2xl ring-4 ring-dark/10 transition-colors hover:bg-gold-light sm:size-16"
           aria-label={open ? 'Close WhatsApp chat' : 'Open WhatsApp chat'}
         >
           <AnimatePresence mode="wait">
@@ -205,7 +185,7 @@ export function WhatsAppChatbot() {
                 transition={{ duration: 0.2 }}
                 className="flex items-center justify-center"
               >
-                <X className="w-6 h-6 sm:w-7 sm:h-7 text-dark" />
+                <X className="size-6 text-dark sm:size-7" />
               </motion.span>
             ) : (
               <motion.span
@@ -216,17 +196,16 @@ export function WhatsAppChatbot() {
                 transition={{ duration: 0.2 }}
                 className="flex items-center justify-center"
               >
-                <WhatsAppIcon className="w-7 h-7 sm:w-8 sm:h-8 text-dark" />
+                <WhatsAppIcon className="size-7 text-dark sm:size-8" />
               </motion.span>
-            )
-            }
+            )}
           </AnimatePresence>
         </motion.button>
 
         {/* Notification dot */}
         {!open && (
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-burgundy rounded-full border-2 border-white flex items-center justify-center z-20">
-            <span className="text-white text-[8px] font-bold">1</span>
+          <span className="absolute -right-1 -top-1 z-20 flex size-4 items-center justify-center rounded-full border-2 border-cream bg-burgundy">
+            <span className="text-[8px] font-bold text-white">1</span>
           </span>
         )}
       </div>

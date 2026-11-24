@@ -51,15 +51,22 @@ export function Reveal({
   ...rest
 }: RevealProps) {
   const baseVariants = variantMap[direction];
+  const baseVisible = baseVariants.visible as Record<string, unknown> | undefined;
   const variants: Variants = duration
     ? {
         hidden: baseVariants.hidden,
-        visible: { ...baseVariants.visible, transition: { ...baseVariants.visible.transition, duration, delay } },
+        visible: {
+          ...baseVisible,
+          transition: { ...(baseVisible?.transition as object), duration, delay },
+        },
       }
     : delay
       ? {
           hidden: baseVariants.hidden,
-          visible: { ...baseVariants.visible, transition: { ...baseVariants.visible.transition, delay } },
+          visible: {
+            ...baseVisible,
+            transition: { ...(baseVisible?.transition as object), delay },
+          },
         }
       : baseVariants;
 
